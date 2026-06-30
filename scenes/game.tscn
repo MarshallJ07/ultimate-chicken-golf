@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://cbeuxju27coag"]
+
+[ext_resource type="Script" uid="uid://3dbj678lk3bw" path="res://main.gd" id="1_yqjtg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8cj0n"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_uwrxv"]
+sky_material = SubResource("ProceduralSkyMaterial_8cj0n")
+
+[sub_resource type="Environment" id="Environment_yqjtg"]
+background_mode = 2
+sky = SubResource("Sky_uwrxv")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uwrxv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uwrxv"]
+size = Vector3(100, 1, 300)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uwrxv"]
+
+[node name="game" type="Node3D" unique_id=794742054]
+script = ExtResource("1_yqjtg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1511150557]
+environment = SubResource("Environment_yqjtg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1408927187]
+transform = Transform3D(0.9905981, -0.052352954, 0.12639117, -0.014221623, 0.87946576, 0.4757495, -0.13606362, -0.473074, 0.8704525, 0, 39.90068, 0)
+shadow_enabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2046448874]
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_uwrxv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=459103270]
+shape = SubResource("BoxShape3D_uwrxv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=978411884]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 300, 0, 0, 0)
+mesh = SubResource("BoxMesh_uwrxv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1042891973]
+
+[node name="Host" type="Button" parent="CanvasLayer" unique_id=1680867696]
+offset_right = 63.0
+offset_bottom = 19.0
+text = "Host"
+
+[node name="SpawnPoint" type="Node3D" parent="." unique_id=45943913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33.248623, -77.2733)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=717440518]
+_spawnable_scenes = PackedStringArray("uid://bs72ogkvdd7d6")
+spawn_path = NodePath("..")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=310413098]
+
+[connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

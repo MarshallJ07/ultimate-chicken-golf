@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://d3typ508erkru"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v4t87"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_v4t87"]
+
+[sub_resource type="Skin" id="Skin_ba0x2"]
+
+[node name="platform" type="Node3D" unique_id=1178060602]
+transform = Transform3D(13.54, 0, 0, 0, 1, 0, 0, 0, 15.075, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2060691241]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1250067414]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_v4t87")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=875658203]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("BoxMesh_v4t87")
+skin = SubResource("Skin_ba0x2")

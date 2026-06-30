@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://lcpwgxrnd7nb"]
+
+[ext_resource type="Script" uid="uid://dho7yfku0di7j" path="res://scripts/ball.gd" id="1_7s4qf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n1dj2"]
+friction = 0.5
+bounce = 0.4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cxlvu"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_n1dj2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7s4qf"]
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="ball" type="RigidBody3D" unique_id=112339196]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
+physics_material_override = SubResource("PhysicsMaterial_n1dj2")
+linear_damp = 0.5
+angular_damp = 1.0
+script = ExtResource("1_7s4qf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1440539207]
+shape = SubResource("SphereShape3D_cxlvu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=150287110]
+mesh = SubResource("SphereMesh_n1dj2")
+surface_material_override/0 = SubResource("StandardMaterial3D_7s4qf")
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=597166327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6703818, 0)
