@@ -7,3 +7,5 @@ func _physics_process(delta: float) -> void:
 	else:
 		self.linear_damp = 0
 		self.angular_damp = 0
+func _enter_tree() -> void:
+	set_multiplayer_authority(name.to_int())
