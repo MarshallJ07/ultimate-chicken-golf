@@ -8,8 +8,7 @@ const MAX_MEMBERS := 4
 var peer: MultiplayerPeer
 
 func _ready():
-	print(Steam.steamInit())
-	print(Steam.isSteamRunning())
+	Steam.steamInit()
 	Steam.initRelayNetworkAccess()
 	Steam.lobby_created.connect(on_lobby_created)
 	Steam.lobby_joined.connect(on_lobby_joined)
@@ -20,11 +19,9 @@ func _process(delta: float) -> void:
 	
 
 func host_lobby() -> void:
-	print(1)
 	Steam.createLobby(LOBBY_TYPE, MAX_MEMBERS)
 	
 func on_lobby_created(connect:int, lobby_id:int) -> void:
-	print(2)
 	if connect == Steam.RESULT_OK:
 		peer = SteamMultiplayerPeer.new()
 		peer.server_relay = true

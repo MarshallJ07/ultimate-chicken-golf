@@ -65,6 +65,7 @@ func _ready() -> void:
 	
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
+	print(name,'name')
 	
 func _shoot_ball(ball,power):
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
@@ -120,7 +121,6 @@ func _physics_process(delta: float) -> void:
 		get_parent().add_child(ball)
 		ball.position = position
 		_shoot_ball(ball,30)
-		print(ball)
 
 	# Modify speed based on sprinting
 	if can_sprint and Input.is_action_pressed(input_sprint):
