@@ -69,13 +69,30 @@ func _enter_tree() -> void:
 		get_node("Head").get_node("Camera3D").current = true
 	else:
 		get_node("Head").get_node("Camera3D").current = false
-	
-func _shoot_ball(ball,power):
+		
+@rpc("call_local")
+func _spawn_ball_everywhere(power: int):
+	var ball = preload("res://scenes/ball.tscn").instantiate()
+	get_parent().add_child(ball)
+	ball.position = position
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y
 	var final_dir = (dir + up * 0.1).normalized()
 
 	ball.apply_impulse(final_dir * power)
+	
+func _spawn_ball(power: int):
+	_spawn_ball_everywhere.rpc(30)
+	
+func _shoot():
+	if multiplayer.is_server():
+		_spawn_ball(30)
+	else:
+		shoot_rpc.rpc_id(1, global_position, 30)
+
+@rpc("any_peer")
+func shoot_rpc(pos: Vector3, dir: Vector3):
+	_spawn_ball(30)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Mouse capturing
@@ -120,10 +137,7 @@ func _physics_process(delta: float) -> void:
 			velocity.y = jump_velocity
 
 	if Input.is_action_just_pressed(input_shoot) and is_on_floor():
-		var ball = preload("res://scenes/ball.tscn").instantiate()
-		get_parent().add_child(ball)
-		ball.position = position
-		_shoot_ball(ball,30)
+		_shoot()
 
 	# Modify speed based on sprinting
 	if can_sprint and Input.is_action_pressed(input_sprint):
