@@ -66,7 +66,9 @@ func _ready() -> void:
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	if is_multiplayer_authority():
-		get_node("Head").get_node("Camera3D").make_current
+		get_node("Head").get_node("Camera3D").current = true
+	else:
+		get_node("Head").get_node("Camera3D").current = false
 	
 func _shoot_ball(ball,power):
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8

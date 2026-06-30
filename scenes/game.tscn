@@ -55,7 +55,7 @@ text = "Host"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33.248623, -77.2733)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=717440518]
-_spawnable_scenes = PackedStringArray("uid://bs72ogkvdd7d6")
+_spawnable_scenes = PackedStringArray("uid://bs72ogkvdd7d6", "uid://lcpwgxrnd7nb")
 spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
