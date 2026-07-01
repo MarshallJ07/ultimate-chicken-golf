@@ -25,14 +25,14 @@ func spawn_player(peer_id:int) -> void:
 	initialize_ball(ball)
 	
 func initialize_player(player: CharacterBody3D) -> void:
-	print("Initializing player", player.name, "at", $SpawnPoint.position)
+	print("Initializing player: ", player.name, " at ", $SpawnPoint.position)
 	player.position = $SpawnPoint.position
 	for other in players:
 		player.add_collision_exception_with(other)
 	players.append(player)
 
 func initialize_ball(ball: RigidBody3D) -> void:
-	print("Initializing ball", ball.name, "at", $SpawnPoint.position)
+	print("Initializing ball: ", ball.name, " at ", $SpawnPoint.position)
 	ball.position = $SpawnPoint.position
 
 
