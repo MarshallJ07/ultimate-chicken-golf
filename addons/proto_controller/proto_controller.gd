@@ -82,17 +82,20 @@ func _spawn_ball_everywhere(power: int):
 	ball.apply_impulse(final_dir * power)
 	
 func _spawn_ball(power: int):
-	_spawn_ball_everywhere.rpc(30)
+	_spawn_ball_everywhere.rpc(power)
 	
-func _shoot():
+func _shoot(power: int):
 	if multiplayer.is_server():
-		_spawn_ball(30)
+		print(2)
+		_spawn_ball(power)
 	else:
-		shoot_rpc.rpc_id(1, global_position, 30)
+		print(1)
+		shoot_rpc.rpc_id(power)
 
 @rpc("any_peer")
-func shoot_rpc(pos: Vector3, dir: Vector3):
-	_spawn_ball(30)
+func shoot_rpc(power: int):
+	_spawn_ball(power)
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Mouse capturing
@@ -137,7 +140,7 @@ func _physics_process(delta: float) -> void:
 			velocity.y = jump_velocity
 
 	if Input.is_action_just_pressed(input_shoot) and is_on_floor():
-		_shoot()
+		_shoot(30)
 
 	# Modify speed based on sprinting
 	if can_sprint and Input.is_action_pressed(input_sprint):
