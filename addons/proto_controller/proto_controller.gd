@@ -72,7 +72,12 @@ func _enter_tree() -> void:
 		get_node("Head").get_node("Camera3D").current = false
 		
 @rpc("any_peer", "call_local", "reliable")
-func _spawn_ball_everywhere(ball: RigidBody3D,power: int):
+func _spawn_ball_everywhere(power: int):
+	var ball: RigidBody3D
+	for i in get_parent().get_node("balls").get_children():
+		print(i.name.to_int(),'name')
+		if str(i.name.to_int()) == name:
+			ball = get_parent().get_node("balls").get_node(str(i.name))
 	print('shoot')
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y
@@ -81,15 +86,7 @@ func _spawn_ball_everywhere(ball: RigidBody3D,power: int):
 	ball.apply_impulse(final_dir * power)
 	
 func _spawn_ball(power: int):
-	var ball: RigidBody3D
-	for i in get_parent().get_node("balls").get_children():
-		print(i.name.to_int(),'name')
-		if str(i.name.to_int()) == name:
-			ball = get_parent().get_node("balls").get_node(str(i.name))
-	if ball == null:
-		print('error')
-	print("shooting ball:",ball,' power:',power)
-	_spawn_ball_everywhere.rpc(ball,power)
+	_spawn_ball_everywhere.rpc(power)
 	
 func _shoot(power: int):
 	if multiplayer.is_server():
