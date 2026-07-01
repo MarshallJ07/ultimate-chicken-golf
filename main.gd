@@ -20,6 +20,7 @@ func spawn_player(peer_id:int) -> void:
 	var ball = preload("res://scenes/ball.tscn").instantiate()
 	$balls.add_child(ball)
 	ball.owner_peer_id = peer_id
+	print("Set owner to", ball.owner_peer_id)
 	
 	initialize_ball(ball)
 func initialize_player(player: CharacterBody3D) -> void:

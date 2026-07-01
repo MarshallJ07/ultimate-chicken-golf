@@ -56,7 +56,7 @@ var freeflying : bool = false
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera = $Head/Camera3D
 
-@export var owner_peer_id := -1
+
 
 func _ready() -> void:
 
@@ -74,9 +74,11 @@ func _enter_tree() -> void:
 		
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_ball_everywhere(power: int):
+	for ball in get_parent().get_node("balls").get_children():
+		print(ball.owner_peer_id)
 	var ball: RigidBody3D
 	for i in get_parent().get_node("balls").get_children():
-		if ball.owner_peer_id == multiplayer.get_unique_id():
+		if i.owner_peer_id == multiplayer.get_unique_id():
 			ball = i
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y

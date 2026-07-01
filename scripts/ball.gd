@@ -1,5 +1,5 @@
 extends Node3D
-
+@export var owner_peer_id := -1
 func _physics_process(delta: float) -> void:
 	if get_child(2).is_colliding():
 		self.linear_damp = 2
