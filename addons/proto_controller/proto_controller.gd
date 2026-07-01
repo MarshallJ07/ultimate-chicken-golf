@@ -72,6 +72,7 @@ func _enter_tree() -> void:
 		
 @rpc("call_local")
 func _spawn_ball_everywhere(power: int):
+	print(4)
 	var ball = preload("res://scenes/ball.tscn").instantiate()
 	get_parent().add_child(ball)
 	ball.position = position
@@ -86,15 +87,12 @@ func _spawn_ball(power: int):
 	
 func _shoot(power: int):
 	if multiplayer.is_server():
-		print(2)
 		_spawn_ball(power)
 	else:
-		print(1)
 		shoot_rpc.rpc_id(1,power)
 
 @rpc("any_peer")
 func shoot_rpc(power: int):
-	print(3)
 	_spawn_ball(power)
 	
 
