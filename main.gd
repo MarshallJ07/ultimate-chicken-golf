@@ -19,15 +19,16 @@ func spawn_player(peer_id:int) -> void:
 	
 	var ball = preload("res://scenes/ball.tscn").instantiate()
 	ball.name = str(peer_id)
-	get_node("balls").add_child(ball)
-	ball.position = $SpawnPoint.position
-	print(get_node("balls").get_children())
-	
+	$balls.add_child(ball)
+	initialize_ball(ball)
 func initialize_player(player: CharacterBody3D) -> void:
 	player.position = $SpawnPoint.position
 	for other in players:
 		player.add_collision_exception_with(other)
 	players.append(player)
+
+func initialize_ball(ball: RigidBody3D) -> void:
+	ball.position = $SpawnPoint.position
 	
 
 
@@ -38,3 +39,5 @@ func _on_host_pressed() -> void:
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
 	if node is CharacterBody3D:
 		initialize_player(node)
+	if node is RigidBody3D:
+		initialize_ball(node)
