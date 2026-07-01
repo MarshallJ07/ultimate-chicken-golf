@@ -90,10 +90,11 @@ func _shoot(power: int):
 		_spawn_ball(power)
 	else:
 		print(1)
-		shoot_rpc.rpc_id(power)
+		shoot_rpc.rpc_id(1,power)
 
 @rpc("any_peer")
 func shoot_rpc(power: int):
+	print(3)
 	_spawn_ball(power)
 	
 
