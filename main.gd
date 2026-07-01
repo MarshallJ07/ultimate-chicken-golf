@@ -1,47 +1,43 @@
 extends Node
 
-const PLAYER_SCENE := preload("uid://bs72ogkvdd7d6")
-const BALL_SCENE := preload("res://scenes/ball.tscn")
 
-var players: Array[CharacterBody3D] = []
+const PLAYER_CONTROLLER = preload("uid://bs72ogkvdd7d6")
+const BALL = preload("uid://lcpwgxrnd7nb")
+var players: Array[CharacterBody3D]
 
 func _ready() -> void:
-	Networking.host_created.connect(_on_host_created)
-
-func _on_host_created() -> void:
-	print("Host created")
-
-	# Spawn the host.
-	_spawn_player(multiplayer.get_unique_id())
-
-	# Spawn future clients.
-	multiplayer.peer_connected.connect(_spawn_player)
-
-func _spawn_player(peer_id: int) -> void:
-	if !multiplayer.is_server():
-		return
-
-	print("Spawning", peer_id)
-
-	# Player
-	var player := PLAYER_SCENE.instantiate()
-	player.name = str(peer_id)
-	player.global_position = $SpawnPoint.global_position
-	add_child(player)
-
+	Networking.host_created.connect(on_host_created)
+	
+func on_host_created() -> void:
+	spawn_player(multiplayer.get_unique_id())
+	multiplayer.peer_connected.connect(spawn_player)
+	
+func spawn_player(peer_id:int) -> void:
+	var new_player := PLAYER_CONTROLLER.instantiate() as CharacterBody3D
+	new_player.name = str(peer_id)
+	add_child(new_player)
+	initialize_player(new_player)
+	
+	var ball := BALL.instantiate() as RigidBody3D
+	ball.name = "Ball_%d" % peer_id
+	$balls.add_child(ball)
+	ball.owner_peer_id = peer_id
+	
+	initialize_ball(ball)
+func initialize_player(player: CharacterBody3D) -> void:
+	player.position = $SpawnPoint.position
 	for other in players:
 		player.add_collision_exception_with(other)
 	players.append(player)
 
-	# Ball
-	var ball := BALL_SCENE.instantiate()
-	ball.name = "Ball_%d" % peer_id
-	ball.owner_peer_id = peer_id
-	ball.global_position = $SpawnPoint.global_position
-	$balls.add_child(ball)
+func initialize_ball(ball: RigidBody3D) -> void:
+	ball.position = $SpawnPoint.position
+	
+
 
 func _on_host_pressed() -> void:
 	Networking.host_lobby()
 
+
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
-	print("Replicated:", node.name)
+	print(node.name)
