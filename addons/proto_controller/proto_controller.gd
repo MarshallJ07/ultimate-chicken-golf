@@ -85,6 +85,8 @@ func _spawn_ball(power: int):
 		print(i.name.to_int())
 		if str(i.name.to_int()) == name:
 			ball = get_parent().get_node("balls").get_node(str(i.name))
+	if ball == null:
+		print('error')
 	_spawn_ball_everywhere.rpc(ball,power)
 	
 func _shoot(power: int):
