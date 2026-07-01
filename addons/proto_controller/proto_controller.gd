@@ -73,31 +73,32 @@ func _enter_tree() -> void:
 		get_node("Head").get_node("Camera3D").current = false
 		
 @rpc("any_peer", "call_local", "reliable")
-func _spawn_ball_everywhere(power: int):
-	for ball in get_parent().get_node("balls").get_children():
-		print(ball.owner_peer_id)
-	var ball: RigidBody3D
-	for i in get_parent().get_node("balls").get_children():
-		if i.owner_peer_id == multiplayer.get_unique_id():
-			ball = i
+func _spawn_ball_everywhere(power: int,ball:RigidBody3D):
+
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y
 	var final_dir = (dir + up * 0.1).normalized()
 
 	ball.apply_impulse(final_dir * power)
 	
-func _spawn_ball(power: int):
-	_spawn_ball_everywhere.rpc(power)
+func _spawn_ball(power: int, ball:RigidBody3D):
+	_spawn_ball_everywhere.rpc(power,ball)
 	
-func _shoot(power: int):
+func _shoot(power: int,node):
 	if multiplayer.is_server():
-		_spawn_ball(power)
+		for i in get_parent().get_node("balls").get_children():
+			if i.name == node:
+				_spawn_ball(power,i)
+				break
 	else:
-		shoot_rpc.rpc_id(1,power)
+		shoot_rpc.rpc_id(1,power,name)
 
 @rpc("any_peer")
-func shoot_rpc(power: int):
-	_spawn_ball(power)
+func shoot_rpc(power: int, node):
+	for i in get_parent().get_node("balls").get_children():
+		if i.name == node:
+			_spawn_ball(power,i)
+			break
 	
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -143,7 +144,7 @@ func _physics_process(delta: float) -> void:
 			velocity.y = jump_velocity
 
 	if Input.is_action_just_pressed(input_shoot) and is_on_floor():
-		_shoot(30)
+		_shoot(30, name)
 
 	# Modify speed based on sprinting
 	if can_sprint and Input.is_action_pressed(input_sprint):
