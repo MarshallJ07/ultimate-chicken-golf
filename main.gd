@@ -18,8 +18,9 @@ func spawn_player(peer_id:int) -> void:
 	initialize_player(new_player)
 	
 	var ball = preload("res://scenes/ball.tscn").instantiate()
-	ball.name = str(peer_id)
 	$balls.add_child(ball)
+	ball.owner_peer_id = peer_id
+	
 	initialize_ball(ball)
 func initialize_player(player: CharacterBody3D) -> void:
 	player.position = $SpawnPoint.position
