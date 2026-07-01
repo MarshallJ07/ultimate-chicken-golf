@@ -70,12 +70,9 @@ func _enter_tree() -> void:
 	else:
 		get_node("Head").get_node("Camera3D").current = false
 		
-@rpc("call_local")
+@rpc("any_peer", "call_local", "reliable")
 func _spawn_ball_everywhere(power: int):
-	print(4)
-	var ball = preload("res://scenes/ball.tscn").instantiate()
-	get_parent().add_child(ball)
-	ball.position = position
+	var ball = get_node("ball")
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y
 	var final_dir = (dir + up * 0.1).normalized()

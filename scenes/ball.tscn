@@ -22,7 +22,6 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [node name="ball" type="RigidBody3D" unique_id=112339196]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 collision_layer = 2
 collision_mask = 2
 physics_material_override = SubResource("PhysicsMaterial_n1dj2")
@@ -31,9 +30,11 @@ angular_damp = 1.0
 script = ExtResource("1_7s4qf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1440539207]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("SphereShape3D_cxlvu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=150287110]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("SphereMesh_n1dj2")
 surface_material_override/0 = SubResource("StandardMaterial3D_7s4qf")
 
