@@ -32,7 +32,7 @@ func initialize_player(player: CharacterBody3D) -> void:
 	players.append(player)
 
 func initialize_ball(ball: RigidBody3D) -> void:
-	print("Initializing ball: ", ball.name, " at ", $SpawnPoint.position)
+	print("Initializing ball: ", ball.owner_peer_id, " at ", $SpawnPoint.position)
 	ball.position = $SpawnPoint.position
 
 
