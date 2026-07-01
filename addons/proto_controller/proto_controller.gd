@@ -65,6 +65,7 @@ func _ready() -> void:
 	
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
+	
 	if is_multiplayer_authority():
 		get_node("Head").get_node("Camera3D").current = true
 	else:
@@ -72,7 +73,10 @@ func _enter_tree() -> void:
 		
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_ball_everywhere(power: int):
-	var ball = get_node("ball")
+	var ball
+	for i in get_parent().get_node("balls").get_children():
+		if i.to_int() == name:
+			ball = get_parent().get_node("ball")
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y
 	var final_dir = (dir + up * 0.1).normalized()

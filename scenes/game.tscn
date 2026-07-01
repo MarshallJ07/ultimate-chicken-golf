@@ -58,5 +58,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33.248623, -77.2733)
 _spawnable_scenes = PackedStringArray("uid://bs72ogkvdd7d6", "uid://lcpwgxrnd7nb")
 spawn_path = NodePath("..")
 
+[node name="balls" type="Node3D" parent="." unique_id=714516021]
+
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

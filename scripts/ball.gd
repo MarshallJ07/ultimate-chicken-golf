@@ -9,3 +9,4 @@ func _physics_process(delta: float) -> void:
 		self.angular_damp = 0
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
+	name = "ball"+name
