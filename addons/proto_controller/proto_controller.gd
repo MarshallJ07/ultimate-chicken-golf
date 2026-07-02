@@ -12,7 +12,7 @@ extends CharacterBody3D
 ## Can we press to jump?
 @export var can_jump : bool = true
 ## Can we hold to run?
-@export var can_sprint : bool = false
+@export var can_sprint : bool = true
 ## Can we press to enter freefly mode (noclip)?
 @export var can_freefly : bool = false
 
@@ -92,14 +92,12 @@ func _shoot(power: int,node):
 		for i in get_parent().get_node("balls").get_children():
 			if i.name.to_int() == int(node):
 				_spawn_ball_everywhere.rpc(power,name)
-				print('shoot')
 				break
 	else:
 		shoot_rpc.rpc_id(1,power,name)
 
 @rpc("any_peer")
 func shoot_rpc(power: int, node):
-	print('got rpc')
 	for i in get_parent().get_node("balls").get_children():
 		if i.name.to_int() == int(node):
 			_spawn_ball_everywhere.rpc(power,name)

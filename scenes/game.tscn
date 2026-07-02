@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cbeuxju27coag"]
 
 [ext_resource type="Script" uid="uid://3dbj678lk3bw" path="res://main.gd" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://brqy5clh61o5v" path="res://terrain_v_0_0_1.tscn" id="2_yqjtg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8cj0n"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -15,12 +16,9 @@ sky = SubResource("Sky_uwrxv")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uwrxv"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_uwrxv"]
-size = Vector3(100, 1, 300)
-
-[sub_resource type="BoxMesh" id="BoxMesh_uwrxv"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lnu2h"]
+height = 16.65
+radius = 2.5
 
 [node name="game" type="Node3D" unique_id=794742054]
 script = ExtResource("1_yqjtg")
@@ -32,18 +30,6 @@ environment = SubResource("Environment_yqjtg")
 transform = Transform3D(0.9905981, -0.052352954, 0.12639117, -0.014221623, 0.87946576, 0.4757495, -0.13606362, -0.473074, 0.8704525, 0, 39.90068, 0)
 shadow_enabled = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2046448874]
-collision_layer = 3
-collision_mask = 3
-physics_material_override = SubResource("PhysicsMaterial_uwrxv")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=459103270]
-shape = SubResource("BoxShape3D_uwrxv")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=978411884]
-transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 300, 0, 0, 0)
-mesh = SubResource("BoxMesh_uwrxv")
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1042891973]
 
 [node name="Host" type="Button" parent="CanvasLayer" unique_id=1680867696]
@@ -51,8 +37,24 @@ offset_right = 63.0
 offset_bottom = 19.0
 text = "Host"
 
+[node name="Panel" type="PanelContainer" parent="CanvasLayer" unique_id=588914979]
+visible = false
+offset_left = 28.0
+offset_top = 9.0
+offset_right = 1128.0
+offset_bottom = 160.0
+
+[node name="winText" type="Label" parent="CanvasLayer/Panel" unique_id=124341851]
+custom_minimum_size = Vector2(1100, 32.54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "slowing"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="SpawnPoint" type="Node3D" parent="." unique_id=45943913]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33.248623, -77.2733)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.141457, 17.037476)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=717440518]
 _spawnable_scenes = PackedStringArray("uid://bs72ogkvdd7d6")
@@ -63,6 +65,17 @@ _spawnable_scenes = PackedStringArray("uid://lcpwgxrnd7nb")
 spawn_path = NodePath("../balls")
 
 [node name="balls" type="Node3D" parent="." unique_id=714516021]
+
+[node name="Hole" type="Area3D" parent="." unique_id=1712896260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 155)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hole" unique_id=18784157]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.415, -280)
+shape = SubResource("CylinderShape3D_lnu2h")
+
+[node name="terrain V0_0_1" parent="." unique_id=423592377 instance=ExtResource("2_yqjtg")]
 
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
