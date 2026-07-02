@@ -130,6 +130,8 @@ func _get_new_ball() -> void:
 	for i in get_parent().get_node("balls").get_children():
 		if i.name.to_int() == int(name):
 			i.position = position
+			i.linear_velocity = Vector3.ZERO
+			i.angular_velocity = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():

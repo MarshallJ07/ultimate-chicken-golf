@@ -39,6 +39,7 @@ func initialize_ball(ball: RigidBody3D) -> void:
 
 func _on_host_pressed() -> void:
 	Networking.host_lobby()
+	get_node("CanvasLayer").get_node("Host").disabled = true
 
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
