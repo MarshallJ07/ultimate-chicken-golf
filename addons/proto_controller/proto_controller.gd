@@ -46,6 +46,8 @@ extends CharacterBody3D
 ## Name of Input Action to shoot
 @export var input_shoot : String = "shoot"
 
+@export var input_new_ball : String = "input_new_ball"
+
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
@@ -73,31 +75,34 @@ func _enter_tree() -> void:
 		get_node("Head").get_node("Camera3D").current = false
 		
 @rpc("any_peer", "call_local", "reliable")
-func _spawn_ball_everywhere(power: int,ball:RigidBody3D):
+func _spawn_ball_everywhere(power: int,ball):
 
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y
 	var final_dir = (dir + up * 0.1).normalized()
-
-	ball.apply_impulse(final_dir * power)
+	for i in get_parent().get_node("balls").get_children():
+		if i.name.to_int() == int(ball):
+			i.apply_impulse(final_dir * power)
 	
-func _spawn_ball(power: int, ball:RigidBody3D):
-	_spawn_ball_everywhere.rpc(power,ball)
+
+	
 	
 func _shoot(power: int,node):
 	if multiplayer.is_server():
 		for i in get_parent().get_node("balls").get_children():
-			if i.name == node:
-				_spawn_ball(power,i)
+			if i.name.to_int() == int(node):
+				_spawn_ball_everywhere.rpc(power,name)
+				print('shoot')
 				break
 	else:
 		shoot_rpc.rpc_id(1,power,name)
 
 @rpc("any_peer")
 func shoot_rpc(power: int, node):
+	print('got rpc')
 	for i in get_parent().get_node("balls").get_children():
-		if i.name == node:
-			_spawn_ball(power,i)
+		if i.name.to_int() == int(node):
+			_spawn_ball_everywhere.rpc(power,name)
 			break
 	
 
@@ -119,6 +124,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			enable_freefly()
 		else:
 			disable_freefly()
+
+
+func _get_new_ball() -> void:
+	for i in get_parent().get_node("balls").get_children():
+		if i.name.to_int() == int(name):
+			i.position = position
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
@@ -144,7 +155,8 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed(input_shoot) and is_on_floor():
 		_shoot(30, name)
-
+	if Input.is_action_just_pressed(input_new_ball):
+		_get_new_ball()
 	# Modify speed based on sprinting
 	if can_sprint and Input.is_action_pressed(input_sprint):
 			move_speed = sprint_speed

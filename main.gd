@@ -17,11 +17,13 @@ func spawn_player(peer_id:int) -> void:
 	new_player.name = str(peer_id)
 	add_child(new_player)
 	initialize_player(new_player)
+	spawn_ball(peer_id)
 	
+func spawn_ball(peer_id:int) -> void:
 	var ball := BALL.instantiate() as RigidBody3D
 	ball.name = "Ball_%d" % peer_id
-	$balls.add_child(ball)
 	ball.owner_peer_id = peer_id
+	$balls.add_child(ball)
 	
 	initialize_ball(ball)
 func initialize_player(player: CharacterBody3D) -> void:
@@ -40,4 +42,7 @@ func _on_host_pressed() -> void:
 
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
-	print(node.name)
+	if node is CharacterBody3D:
+		initialize_player(node)
+	if node is RigidBody3D:
+		initialize_ball(node)
