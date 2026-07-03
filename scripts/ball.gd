@@ -19,13 +19,13 @@ func _ready() -> void:
 	
 func _body_entered(node):
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
-	winnerText.rpc_id(1)
+	winnerText.rpc_id(1,Steam.getPersonaName()+" Wins")
 
 @rpc("any_peer")
-func winnerText() -> void:
+func winnerText(text) -> void:
 	if !multiplayer.is_server():
 		return
-	displayText.rpc(Steam.getPersonaName()+" Wins")
+	displayText.rpc(text)
 	
 @rpc("any_peer","call_local","reliable")
 func displayText(text) -> void:
