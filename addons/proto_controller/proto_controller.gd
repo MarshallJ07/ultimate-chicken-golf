@@ -159,9 +159,9 @@ func _physics_process(delta: float) -> void:
 		if result:
 			ghostSandTrap.position = result.position
 		if Input.is_action_just_pressed("shoot"):
-			var sandTrap = preload("res://scenes/sand_trap.tscn").instantiate()
-			get_parent().get_node("obstacles").add_child(sandTrap)
-			sandTrap.position = result.position
+			print('send to host')
+			place_obstacle.rpc_id(1,"res://scenes/sand_trap.tscn",result.position)
+			
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
@@ -206,6 +206,19 @@ func _physics_process(delta: float) -> void:
 	
 	# Use velocity to actually move
 	move_and_slide()
+
+
+@rpc("any_peer","call_local","reliable")
+func place_obstacle(obstacle,pos) -> void:
+	place_obstacle_client.rpc(obstacle,pos)
+	
+@rpc("any_peer","call_local","reliable")
+func place_obstacle_client(obstacle,pos) -> void:
+	var sandTrap = load(obstacle).instantiate()
+	get_parent().get_node("obstacles").add_child(sandTrap)
+	sandTrap.position = pos
+	
+
 
 ## Rotate us to look around.
 ## Base of controller rotates around y (left/right). Head rotates around x (up/down).
