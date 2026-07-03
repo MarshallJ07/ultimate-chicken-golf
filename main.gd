@@ -16,10 +16,12 @@ func on_host_created() -> void:
 func spawn_player(peer_id:int) -> void:
 	var new_player := PLAYER_CONTROLLER.instantiate() as CharacterBody3D
 	new_player.name = str(peer_id)
+	
 	add_child(new_player)
 	initialize_player(new_player)
 	getName.rpc_id(peer_id,peer_id)
 	spawn_ball(peer_id)
+	new_player.get_node("nametag").text = playerNames[peer_id]
 	
 @rpc("any_peer","call_local","reliable")
 func getName(peer_id:int) -> void:
