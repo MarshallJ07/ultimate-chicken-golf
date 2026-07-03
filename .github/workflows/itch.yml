@@ -12,23 +12,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Show workspace (debug)
+      - name: Download Butler
         run: |
-          pwd
-          ls -R
+          curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
 
-      - name: Install Butler
-        uses: jamiephan/itch-butler-action@v1
+      - name: Debug files
+        run: ls -R
 
-      - name: Verify build folder exists
-        run: |
-          if [ ! -d "./build" ]; then
-            echo "ERROR: build folder not found"
-            exit 1
-          fi
-          ls -R ./build
-
-      - name: Push to itch.io
+      - name: Push to itch
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: |
