@@ -21,15 +21,20 @@ func spawn_player(peer_id:int) -> void:
 	initialize_player(new_player)
 	getName.rpc_id(peer_id,peer_id)
 	spawn_ball(peer_id)
-	new_player.get_node("nametag").text = playerNames[peer_id]
+	
 	
 @rpc("any_peer","call_local","reliable")
 func getName(peer_id:int) -> void:
-	print('2 ',Steam.getPersonaName())
 	sendNameToHost.rpc_id(1,Steam.getPersonaName(),peer_id)
 @rpc("any_peer","call_local","reliable")
-func sendNameToHost(name:String, peer_id:int) -> void:
-	playerNames[peer_id] = name
+func sendNameToHost(playerName:String, peer_id:int) -> void:
+	playerNames[peer_id] = playerName
+	sendNametags.rpc(playerNames)
+@rpc("any_peer","call_local","reliable")
+func sendNametags(playerNameList) -> void:
+	for i in playerNameList.keys():
+		get_node(str(i)).get_node("nametag").text = playerNameList[i]
+	
 	
 	
 	
