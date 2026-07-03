@@ -18,16 +18,18 @@ func _ready() -> void:
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
 	
 func _body_entered(node):
+	if node != self:
+		return
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
+	print(name)
 	winnerText.rpc_id(1)
 	
 
-@rpc("any_peer","call_local")
+@rpc("any_peer","call_local","reliable")
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-	print(get_parent().get_parent().playerNames)
-	print(get_parent().get_parent().playerNames[name.to_int()]+" Wins")
+	print(name)
 	displayText.rpc(get_parent().get_parent().playerNames[name.to_int()]+" Wins")
 	
 @rpc("any_peer","call_local","reliable")

@@ -18,14 +18,22 @@ func spawn_player(peer_id:int) -> void:
 	new_player.name = str(peer_id)
 	add_child(new_player)
 	initialize_player(new_player)
-	playerNames[peer_id] = Steam.getPersonaName()
+	getName.rpc_id(peer_id,peer_id)
 	spawn_ball(peer_id)
+	
+@rpc("any_peer","call_local","reliable")
+func getName(peer_id:int) -> void:
+	print('2 ',Steam.getPersonaName())
+	sendNameToHost.rpc_id(1,Steam.getPersonaName(),peer_id)
+@rpc("any_peer","call_local","reliable")
+func sendNameToHost(name:String, peer_id:int) -> void:
+	playerNames[peer_id] = name
+	
 	
 	
 func spawn_ball(peer_id:int) -> void:
 	var ball := BALL.instantiate() as RigidBody3D
 	ball.name = "Ball_%d" % peer_id
-	ball.owner_peer_id = peer_id
 	$balls.add_child(ball)
 	
 	initialize_ball(ball)
