@@ -15,7 +15,9 @@ size = Vector3(10, 0.25, 10)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1272130140]
 mesh = SubResource("BoxMesh_p8oo0")
 
-[node name="StaticBody3D" type="Area3D" parent="." unique_id=1689985456]
+[node name="Area3d" type="Area3D" parent="." unique_id=1689985456]
+collision_layer = 512
+collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=2101420571]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3d" unique_id=2101420571]
 shape = SubResource("BoxShape3D_beisb")

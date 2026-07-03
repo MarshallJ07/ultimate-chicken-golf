@@ -145,25 +145,25 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 	
-	if building:
-		
-		var mouse_pos = get_viewport().get_mouse_position()
-
-		var from = camera.project_ray_origin(mouse_pos)
-		var to = from + camera.project_ray_normal(mouse_pos) * 1000
-
-		var space = get_world_3d().direct_space_state
-
-		var query = PhysicsRayQueryParameters3D.create(from, to)
-		var result = space.intersect_ray(query)
-		if result:
-			ghostSandTrap.position = result.position
-		if Input.is_action_just_pressed("shoot"):
-			print('send to host')
-			place_obstacle.rpc_id(1,"res://scenes/sand_trap.tscn",result.position)
+	
 			
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
+		if building:
+		
+			var mouse_pos = get_viewport().get_mouse_position()
+
+			var from = camera.project_ray_origin(mouse_pos)
+			var to = from + camera.project_ray_normal(mouse_pos) * 1000
+
+			var space = get_world_3d().direct_space_state
+
+			var query = PhysicsRayQueryParameters3D.create(from, to)
+			var result = space.intersect_ray(query)
+			if result:
+				ghostSandTrap.position = result.position
+			if Input.is_action_just_pressed(input_shoot):
+				place_obstacle.rpc_id(1,"res://scenes/sand_trap.tscn",result.position)
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
 		var motion := (head.global_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		motion *= freefly_speed * delta

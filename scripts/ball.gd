@@ -1,16 +1,26 @@
 extends RigidBody3D
-@export var owner_peer_id := -1
+
+var collisionLayers = {
+	"sandTrap":10
+}
+var modifierDamp = 0
+var modifierAngularDamp = 0
+
+
+
 func _physics_process(delta: float) -> void:
+	self.linear_damp = 0
+	self.angular_damp = 0
+	var collided = false
 	for i in get_node("raycasts").get_children():
 		if i.is_colliding():
-			self.linear_damp = 6
-			self.angular_damp = 6
+			self.linear_damp += 2 + modifierDamp
+			self.angular_damp += 3 + modifierAngularDamp
+			modifierDamp = 0
+			modifierAngularDamp = 0
 			break
-		else:
-			self.linear_damp = 0
-			self.angular_damp = 3
-			break
-		
+
+	
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	
@@ -21,7 +31,6 @@ func _body_entered(node):
 	if node != self:
 		return
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
-	print(name)
 	winnerText.rpc_id(1)
 	
 
@@ -37,3 +46,9 @@ func displayText(text) -> void:
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").get_node("winText").text = text
 	
 	
+
+
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	if area.get_collision_layer_value(collisionLayers["sandTrap"]):
+		modifierDamp += 30
+		modifierAngularDamp += 30
