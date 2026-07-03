@@ -17,11 +17,8 @@ jobs:
           pwd
           ls -R
 
-      - name: Download Butler
-        run: |
-          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-          unzip butler.zip
-          chmod +x butler
+      - name: Install Butler
+        uses: jamiephan/itch-butler-action@v1
 
       - name: Verify build folder exists
         run: |
