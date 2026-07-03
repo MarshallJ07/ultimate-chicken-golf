@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bqraecssrnkrg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8e6n"]
+albedo_color = Color(0.5882353, 0.5254902, 0.29411766, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p8oo0"]
+material = SubResource("StandardMaterial3D_r8e6n")
+size = Vector3(10, 0.25, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_beisb"]
+size = Vector3(10, 0.25, 10)
+
+[node name="sandTrap" type="Node3D" unique_id=1455676905]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1272130140]
+mesh = SubResource("BoxMesh_p8oo0")
+
+[node name="StaticBody3D" type="Area3D" parent="." unique_id=1689985456]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=2101420571]
+shape = SubResource("BoxShape3D_beisb")

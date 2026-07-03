@@ -77,6 +77,10 @@ shape = SubResource("CylinderShape3D_lnu2h")
 
 [node name="terrain V0_0_1" parent="." unique_id=423592377 instance=ExtResource("2_yqjtg")]
 
+[node name="obstacles" type="Node3D" parent="." unique_id=481307846]
+
+[node name="ghost obstacles" type="Node3D" parent="." unique_id=1588693570]
+
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 [connection signal="spawned" from="MultiplayerSpawner2" to="." method="_on_multiplayer_spawner_spawned"]

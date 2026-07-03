@@ -14,7 +14,7 @@ extends CharacterBody3D
 ## Can we hold to run?
 @export var can_sprint : bool = true
 ## Can we press to enter freefly mode (noclip)?
-@export var can_freefly : bool = false
+@export var can_freefly : bool = true
 
 @export_group("Speeds")
 ## Look around rotation speed.
@@ -51,17 +51,27 @@ extends CharacterBody3D
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
-var freeflying : bool = false
+var freeflying : bool = true
+var building : bool = true
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
 @onready var collider: CollisionShape3D = $Collider
 @onready var camera = $Head/Camera3D
 
+#CREATE DEBUG SANDTRAP
+var ghostSandTrap = preload("res://scenes/sand_trap.tscn").instantiate()
 
 
 func _ready() -> void:
-
+	#CREATE DEBUG SANDTRAP
+	get_parent().get_node("ghost obstacles").add_child(ghostSandTrap)
+	var material = ghostSandTrap.get_child(0).get_active_material(0).duplicate()
+	ghostSandTrap.get_child(0).set_surface_override_material(0, material)
+	material.albedo_color.a = 0.1
+	
+	
+	
 	check_input_mappings()
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
@@ -135,6 +145,23 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 	
+	if building:
+		
+		var mouse_pos = get_viewport().get_mouse_position()
+
+		var from = camera.project_ray_origin(mouse_pos)
+		var to = from + camera.project_ray_normal(mouse_pos) * 1000
+
+		var space = get_world_3d().direct_space_state
+
+		var query = PhysicsRayQueryParameters3D.create(from, to)
+		var result = space.intersect_ray(query)
+		if result:
+			ghostSandTrap.position = result.position
+		if Input.is_action_just_pressed("shoot"):
+			var sandTrap = preload("res://scenes/sand_trap.tscn").instantiate()
+			get_parent().get_node("obstacles").add_child(sandTrap)
+			sandTrap.position = result.position
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
