@@ -9,7 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Show workspace (debug)
+        run: |
+          pwd
+          ls -R
 
       - name: Download Butler
         run: |
@@ -17,10 +23,15 @@ jobs:
           unzip butler.zip
           chmod +x butler
 
-      - name: Debug files
-        run: ls -R
+      - name: Verify build folder exists
+        run: |
+          if [ ! -d "./build" ]; then
+            echo "ERROR: build folder not found"
+            exit 1
+          fi
+          ls -R ./build
 
-      - name: Push to itch
+      - name: Push to itch.io
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: |
