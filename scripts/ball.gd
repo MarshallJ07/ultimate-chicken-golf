@@ -22,12 +22,13 @@ func _body_entered(node):
 	winnerText.rpc_id(1)
 	
 
-@rpc("any_peer")
+@rpc("any_peer","call_local")
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-	print(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
-	displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
+	print(get_parent().get_parent().playerNames)
+	print(get_parent().get_parent().playerNames[name.to_int()]+" Wins")
+	displayText.rpc(get_parent().get_parent().playerNames[name.to_int()]+" Wins")
 	
 @rpc("any_peer","call_local","reliable")
 func displayText(text) -> void:
