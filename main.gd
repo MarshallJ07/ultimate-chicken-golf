@@ -4,6 +4,7 @@ extends Node
 const PLAYER_CONTROLLER = preload("uid://bs72ogkvdd7d6")
 const BALL = preload("uid://lcpwgxrnd7nb")
 var players: Array[CharacterBody3D]
+var playerNames = {}
 
 func _ready() -> void:
 	Networking.host_created.connect(on_host_created)
@@ -17,7 +18,9 @@ func spawn_player(peer_id:int) -> void:
 	new_player.name = str(peer_id)
 	add_child(new_player)
 	initialize_player(new_player)
+	playerNames[peer_id] = Steam.getPersonaName()
 	spawn_ball(peer_id)
+	
 	
 func spawn_ball(peer_id:int) -> void:
 	var ball := BALL.instantiate() as RigidBody3D
@@ -31,7 +34,7 @@ func initialize_player(player: CharacterBody3D) -> void:
 	for other in players:
 		player.add_collision_exception_with(other)
 	players.append(player)
-
+	
 func initialize_ball(ball: RigidBody3D) -> void:
 	ball.position = $SpawnPoint.position
 	

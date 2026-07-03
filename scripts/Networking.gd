@@ -4,7 +4,6 @@ signal host_created()
 
 const LOBBY_TYPE := Steam.LobbyType.LOBBY_TYPE_FRIENDS_ONLY
 const MAX_MEMBERS := 4
-
 var peer: MultiplayerPeer
 
 func _ready():
