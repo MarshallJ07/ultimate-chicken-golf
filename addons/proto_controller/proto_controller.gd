@@ -186,7 +186,8 @@ func _physics_process(delta: float) -> void:
 			velocity.y = jump_velocity
 
 	if Input.is_action_just_pressed(input_shoot) and is_on_floor():
-		_shoot(30, name)
+		if get_node("golfClub").get_node("swing").is_playing() and get_node("golfClub").get_node("swing").current_animation != "swing":
+			_shoot(30, name)
 	if Input.is_action_just_pressed(input_new_ball):
 		_get_new_ball()
 	# Modify speed based on sprinting
