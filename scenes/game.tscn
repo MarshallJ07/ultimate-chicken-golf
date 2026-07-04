@@ -88,7 +88,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hole" unique_id=18784157]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.415, -280)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.33, -280)
 shape = SubResource("CylinderShape3D_lnu2h")
 
 [node name="terrain V0_0_1" parent="." unique_id=423592377 instance=ExtResource("2_yqjtg")]
