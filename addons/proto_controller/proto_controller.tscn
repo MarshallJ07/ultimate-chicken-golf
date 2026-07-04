@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://wl4yx2c0lkge" path="res://addons/proto_controller/proto_controller.gd" id="1_ucva2"]
+[ext_resource type="PackedScene" uid="uid://bfptepmd4g4ky" path="res://scenes/golf_club.tscn" id="2_wr06p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -24,25 +25,20 @@ properties/2/path = NodePath("Head/Camera3D:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g2uji"]
-albedo_color = Color(0, 1, 0, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_wr06p"]
-material = SubResource("StandardMaterial3D_g2uji")
-radius = 0.2
-height = 0.4
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wr06p"]
+height = 0.5
 
 [node name="ProtoController" type="CharacterBody3D" unique_id=2095220116]
 script = ExtResource("1_ucva2")
 
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=147759867]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.9, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 material_override = SubResource("StandardMaterial3D_iof21")
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_ucva2")
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=1129109634]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.9, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_iof21")
 
 [node name="Head" type="Node3D" parent="." unique_id=1336123649]
@@ -58,7 +54,13 @@ replication_config = SubResource("SceneReplicationConfig_g2uji")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.226818, 0)
 billboard = 2
 
-[node name="PlacementCursor" type="Node3D" parent="." unique_id=663458855]
+[node name="golfClub" parent="." unique_id=880561351 instance=ExtResource("2_wr06p")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0.45, 0.25, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PlacementCursor" unique_id=1322632390]
-mesh = SubResource("SphereMesh_wr06p")
+[node name="ballZone" type="Area3D" parent="." unique_id=869477803]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ballZone" unique_id=372902028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.095, 0.25, 0)
+shape = SubResource("CylinderShape3D_wr06p")

@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://bfptepmd4g4ky"]
+
+[ext_resource type="PackedScene" uid="uid://diuigcfja4eh2" path="res://Assets/Art/golfClub.glb" id="1_gbbrf"]
+
+[sub_resource type="Animation" id="Animation_svow7"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.6492625, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cube:rotation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ry24n"]
+resource_name = "swing"
+length = 1.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cube:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2),
+"points": PackedFloat32Array(0.6492625, -0.25, 0, 0.25, 0, 0.6492625, -0.043333333, 0, 0.20666668, 0, 0.6492625, -0.050000004, 0, 0.04833334, 0, 0.6492625, -0.098333344, 0, 0.108333334, 0, 0.6492625, -0.060000002, 0, 0.04833333, 0, 0.6492625, -0.25, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.26, 0.56, 0.85, 1.21, 1.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cube:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.043333333, 0, 0.20666668, 0, 0, -0.050000004, 0, 0.04833334, 0, 0, -0.098333344, 0, 0.108333334, 0, 0, -0.060000002, 0, 0.04833333, 0, 0, -0.25, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.26, 0.56, 0.85, 1.21, 1.5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cube:rotation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 2.3841197, -0.043333333, 0, 0.20666668, 0, 2.146755, -0.050000004, 0.41030028, 0.04833334, -0.39662364, -2.4574237, -0.098333344, 0.18906328, 0.108333334, -0.20829003, -1.9303342, -0.060000002, -0.22683913, 0.04833333, 0.1827315, 0, -0.25, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.26, 0.56, 0.85, 1.21, 1.5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fqf02"]
+_data = {
+&"RESET": SubResource("Animation_svow7"),
+&"swing": SubResource("Animation_ry24n")
+}
+
+[node name="golfClub" unique_id=880561351 instance=ExtResource("1_gbbrf")]
+
+[node name="Cube" parent="." index="0" unique_id=775159928]
+transform = Transform3D(0.05, 0, 0, 0, 0.39826494, -0.030229956, 0, 0.30229956, 0.039826494, 0, 0.5, 0.049999997)
+
+[node name="swing" type="AnimationPlayer" parent="." index="1" unique_id=858790770]
+libraries/ = SubResource("AnimationLibrary_fqf02")

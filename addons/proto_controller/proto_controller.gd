@@ -62,6 +62,8 @@ var building : bool = true
 #CREATE DEBUG SANDTRAP
 var ghostSandTrap = preload("res://scenes/sand_trap.tscn").instantiate()
 
+#SHOT VARIABLES
+var swingPower = 1
 
 func _ready() -> void:
 	#CREATE DEBUG SANDTRAP
@@ -92,7 +94,11 @@ func _spawn_ball_everywhere(power: int,ball):
 	var final_dir = (dir + up * 0.1).normalized()
 	for i in get_parent().get_node("balls").get_children():
 		if i.name.to_int() == int(ball):
-			i.apply_impulse(final_dir * power)
+			get_node("golfClub").get_node("swing").play("swing")
+			print(get_node("ballZone").get_overlapping_bodies())
+			await get_tree().create_timer(0.65).timeout
+			if i in get_node("ballZone").get_overlapping_bodies():
+				i.apply_impulse(final_dir * power * swingPower)
 	
 
 	

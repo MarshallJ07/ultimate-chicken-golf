@@ -1,30 +1,46 @@
 extends RigidBody3D
 
 var collisionLayers = {
-	"sandTrap":10
+	"sandTrap":10,
+	"grass":1
+}
+var collidedWith = {
+	"sandTrap":0,
+	"grass":0
 }
 var modifierDamp = 0
 var modifierAngularDamp = 0
 
-
-
+var player
 func _physics_process(delta: float) -> void:
-	self.linear_damp = 0
-	self.angular_damp = 0
-	var collided = false
-	for i in get_node("raycasts").get_children():
-		if i.is_colliding():
-			self.linear_damp += 2 + modifierDamp
-			self.angular_damp += 3 + modifierAngularDamp
-			modifierDamp = 0
-			modifierAngularDamp = 0
-			break
+	modifierDamp = 0
+	modifierAngularDamp = 0
+	player.swingPower = 1
+	collidedWith = {
+	"sandTrap":0,
+	"grass":0
+	}
+	for area in get_node("Area3D").get_overlapping_areas():
+		if area.get_collision_layer_value(collisionLayers["sandTrap"]) and collidedWith["sandTrap"] == 0:
+			collidedWith["sandTrap"] = 1
+			modifierDamp += 20
+			modifierAngularDamp += 20
+			player.swingPower *= 0.75
+	for body in get_node("Area3D").get_overlapping_bodies():
+		if body.get_collision_layer_value(collisionLayers["grass"]) and collidedWith["grass"] == 0:
+			collidedWith["grass"] = 1
+			modifierDamp += 2
+			modifierAngularDamp += 2
+	
+	self.linear_damp = modifierDamp
+	self.angular_damp = modifierAngularDamp
 
 	
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	
 func _ready() -> void:
+	player = get_parent().get_parent().get_node(str(name.to_int()))
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
 	
 func _body_entered(node):
@@ -38,7 +54,7 @@ func _body_entered(node):
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-	print(name)
+
 	displayText.rpc(get_parent().get_parent().playerNames[name.to_int()]+" Wins")
 	
 @rpc("any_peer","call_local","reliable")
@@ -46,9 +62,3 @@ func displayText(text) -> void:
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").get_node("winText").text = text
 	
 	
-
-
-func _on_area_3d_area_entered(area: Area3D) -> void:
-	if area.get_collision_layer_value(collisionLayers["sandTrap"]):
-		modifierDamp += 30
-		modifierAngularDamp += 30
