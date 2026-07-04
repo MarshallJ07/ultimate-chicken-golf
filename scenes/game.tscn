@@ -54,10 +54,20 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=368920304]
-offset_left = 571.0
-offset_top = 319.0
-offset_right = 581.0
-offset_bottom = 329.0
+offset_left = 573.5
+offset_top = 309.0
+offset_right = 578.5
+offset_bottom = 339.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=1243845243]
+offset_left = 561.0
+offset_top = 321.5
+offset_right = 591.0
+offset_bottom = 326.5
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="SpawnPoint" type="Node3D" parent="." unique_id=45943913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.141457, 17.037476)
