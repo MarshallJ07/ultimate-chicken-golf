@@ -30,6 +30,9 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("golfClub:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath(".:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wr06p"]
 height = 0.5
