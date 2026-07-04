@@ -95,7 +95,6 @@ func _spawn_ball_everywhere(power: int,ball):
 	for i in get_parent().get_node("balls").get_children():
 		if i.name.to_int() == int(ball):
 			get_node("golfClub").get_node("swing").play("swing")
-			print(get_node("ballZone").get_overlapping_bodies())
 			await get_tree().create_timer(0.65).timeout
 			if i in get_node("ballZone").get_overlapping_bodies():
 				i.apply_impulse(final_dir * power * swingPower)
