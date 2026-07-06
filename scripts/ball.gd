@@ -41,6 +41,7 @@ func _enter_tree() -> void:
 	
 func _ready() -> void:
 	player = get_parent().get_parent().get_node("player_"+str(name.to_int()))
+	print("player_"+str(name.to_int()))
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
 	
 func _body_entered(node):
