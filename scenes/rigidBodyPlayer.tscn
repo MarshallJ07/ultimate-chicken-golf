@@ -64,3 +64,7 @@ billboard = 2
 [node name="item" type="Node3D" parent="." unique_id=1700084581]
 
 [node name="Timer" type="Timer" parent="." unique_id=1685731066]
+
+[node name="stabalizer" type="Node3D" parent="." unique_id=1171975729]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

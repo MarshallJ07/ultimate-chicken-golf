@@ -9,6 +9,7 @@ extends RigidBody3D
 @export var item3 : String = "item 3"
 @export var item4 : String = "item 4"
 
+var id: int
 
 var mouse_captured : bool = true
 var look_rotation : Vector2
@@ -40,7 +41,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 func _ready() -> void:
 	$Head/Camera3D.make_current()
-
+	$Timer.start()
 
 ## Rotate us to look around.
 ## Base of controller rotates around y (left/right). Head rotates around x (up/down).
@@ -65,3 +66,10 @@ func capture_mouse():
 func release_mouse():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	mouse_captured = false
+
+
+func _on_timer_timeout() -> void:
+	get_parent().get_node("player_"+str(id)).position = position
+	get_parent().get_node("player_"+str(id)).show()
+	get_parent().get_node("player_"+str(id)).get_node("Head").get_node("Camera3D").make_current()
+	queue_free()

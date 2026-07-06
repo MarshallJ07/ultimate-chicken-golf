@@ -8,8 +8,6 @@ extends Node3D
 @export var collision_mask := 1
 
 func _physics_process(delta):
-	rotation = Vector3(0,0,0)
-	position = Vector3(0,0,0)
 	var from = global_position
 	var desired = global_transform * camera_offset
 
