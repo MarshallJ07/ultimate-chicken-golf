@@ -48,11 +48,29 @@ extends CharacterBody3D
 
 @export var input_new_ball : String = "input_new_ball"
 
+@export var item1 : String = "item 1"
+@export var item2 : String = "item 2"
+@export var item3 : String = "item 3"
+@export var item4 : String = "item 4"
+
+
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
 var freeflying : bool = true
 var building : bool = true
+
+var items := ["club","rpg",null,null]
+var itemActionFuncs := {
+	"club":"actionClub",
+	"rpg":"actionRPG"
+}
+var currentItem: String = "club"
+
+var itemScenes := {
+	"club":preload("res://scenes/golf_club.tscn"),
+	"rpg":preload("res://scenes/rpg.tscn")
+}
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -72,6 +90,9 @@ func _ready() -> void:
 	ghostSandTrap.get_child(0).set_surface_override_material(0, material)
 	material.albedo_color.a = 0.1
 	
+	var club = itemScenes[currentItem].instantiate()
+	get_node("item").add_child(club)
+	club.rotation.y = deg_to_rad(270)
 	
 	
 	check_input_mappings()
@@ -82,26 +103,22 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	
 	if is_multiplayer_authority():
-		get_node("Head").get_node("Camera3D").current = true
+		$Head/Camera3D.current = true
 	else:
-		get_node("Head").get_node("Camera3D").current = false
+		$Head/Camera3D.current = false
 		
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_ball_everywhere(power: int,ball):
-
 	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 	var up = camera.global_transform.basis.y
 	var final_dir = (dir + up * 0.1).normalized()
 	for i in get_parent().get_node("balls").get_children():
 		if i.name.to_int() == int(ball):
-			get_node("golfClub").get_node("swing").play("swing")
+			get_node("item").get_node("golfClub").get_node("swing").play("swing")
 			await get_tree().create_timer(0.65).timeout
 			if i in get_node("ballZone").get_overlapping_bodies():
 				i.apply_impulse(final_dir * power * swingPower)
-	
 
-	
-	
 func _shoot(power: int,node):
 	if multiplayer.is_server():
 		for i in get_parent().get_node("balls").get_children():
@@ -117,6 +134,31 @@ func shoot_rpc(power: int, node):
 		if i.name.to_int() == int(node):
 			_spawn_ball_everywhere.rpc(power,name)
 			break
+	
+	
+	
+	
+	
+@rpc("any_peer", "call_local", "reliable")
+func _spawn_rocket_everywhere():
+	var dir = -camera.global_transform.basis.z.normalized()
+
+	var rocket = preload("res://scenes/rocket.tscn").instantiate()
+	get_parent().get_node("bullets").add_child(rocket)
+
+	rocket.global_position = global_position
+	rocket.look_at(global_position + dir, Vector3.UP)
+
+	rocket.id = name
+
+	rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
+
+func _shootRPG():
+	_shootRPG_rpc.rpc_id(1)
+
+@rpc("any_peer", "call_local", "reliable")
+func _shootRPG_rpc():
+	_spawn_rocket_everywhere.rpc()
 	
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -149,7 +191,6 @@ func _get_new_ball() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-	
 	
 			
 	# If freeflying, handle freefly and nothing else
@@ -184,10 +225,37 @@ func _physics_process(delta: float) -> void:
 	if can_jump:
 		if Input.is_action_just_pressed(input_jump) and is_on_floor():
 			velocity.y = jump_velocity
+			
+	if Input.is_action_just_pressed(item1):
+		currentItem = "club"
+		if get_node("item").get_child(0) != null:
+			get_node("item").get_child(0).free()
+		var club = itemScenes[currentItem].instantiate()
+		get_node("item").add_child(club)
+		club.rotation.y = deg_to_rad(270)
+	if Input.is_action_just_pressed(item2):
+		if items[1] != null:
+			currentItem = items[1]
+			if get_node("item").get_child(0) != null:
+				get_node("item").get_child(0).free()
+			get_node("item").add_child(itemScenes[currentItem].instantiate())
+	if Input.is_action_just_pressed(item3):
+		if items[2] != null:
+			currentItem = items[2]
+			if get_node("item").get_child(0) != null:
+				get_node("item").get_child(0).free()
+			get_node("item").add_child(itemScenes[currentItem].instantiate())
+	if Input.is_action_just_pressed(item4):
+		if items[3] != null:
+			currentItem = items[3]
+			if get_node("item").get_child(0) != null:
+				get_node("item").get_child(0).free()
+			get_node("item").add_child(itemScenes[currentItem].instantiate())
 
-	if Input.is_action_just_pressed(input_shoot) and is_on_floor():
-		if !get_node("golfClub").get_node("swing").is_playing() and get_node("golfClub").get_node("swing").current_animation != "swing":
-			_shoot(30, name)
+	if Input.is_action_just_pressed(input_shoot):
+		if currentItem != null:
+			call(itemActionFuncs[currentItem])
+		
 	if Input.is_action_just_pressed(input_new_ball):
 		_get_new_ball()
 	# Modify speed based on sprinting
@@ -283,3 +351,11 @@ func check_input_mappings():
 	if can_freefly and not InputMap.has_action(input_freefly):
 		push_error("Freefly disabled. No InputAction found for input_freefly: " + input_freefly)
 		can_freefly = false
+
+
+func actionClub() -> void:
+	if !get_node("item").get_node("golfClub").get_node("swing").is_playing() and get_node("item").get_node("golfClub").get_node("swing").current_animation != "swing":
+		_shoot(30, name)
+		
+func actionRPG() -> void:
+	_shootRPG()

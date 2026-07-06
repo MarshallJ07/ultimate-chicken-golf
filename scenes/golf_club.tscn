@@ -84,7 +84,7 @@ _data = {
 [node name="golfClub" unique_id=880561351 instance=ExtResource("1_gbbrf")]
 
 [node name="Cube" parent="." index="0" unique_id=775159928]
-transform = Transform3D(0.05, 0, 0, 0, 0.39826494, -0.030229956, 0, 0.30229956, 0.039826494, 0, 0.5, 0.049999997)
+transform = Transform3D(0.05, 0, 0, 0, 0.39826488, -0.030229956, 0, 0.3022995, 0.039826494, 0, 0.89998925, -0.22903937)
 
 [node name="swing" type="AnimationPlayer" parent="." index="1" unique_id=858790770]
 libraries/ = SubResource("AnimationLibrary_fqf02")

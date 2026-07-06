@@ -31,62 +31,64 @@ size = Vector3(10, 1, 10)
 [node name="terrain V0_0_1" unique_id=2132472252 instance=ExtResource("1_lmmbu")]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube" parent_id_path=PackedInt32Array(511986668) index="0" unique_id=1630176128]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube/StaticBody3D" index="0" unique_id=19359256]
 shape = SubResource("ConcavePolygonShape3D_dgdrp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube_001" parent_id_path=PackedInt32Array(900627933) index="0" unique_id=1395639762]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_001/StaticBody3D" index="0" unique_id=1994361025]
 shape = SubResource("ConcavePolygonShape3D_gwiy7")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube_002" parent_id_path=PackedInt32Array(665144453) index="0" unique_id=332902208]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_002/StaticBody3D" index="0" unique_id=290429392]
 shape = SubResource("ConcavePolygonShape3D_xgpj7")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube_003" parent_id_path=PackedInt32Array(909829442) index="0" unique_id=1577406476]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_003/StaticBody3D" index="0" unique_id=2042836543]
 shape = SubResource("ConcavePolygonShape3D_h462e")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube_004" parent_id_path=PackedInt32Array(818015734) index="0" unique_id=558575510]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_004/StaticBody3D" index="0" unique_id=1588110091]
 shape = SubResource("ConcavePolygonShape3D_c4frc")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cylinder" parent_id_path=PackedInt32Array(1804852514) index="0" unique_id=1870577270]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cylinder/StaticBody3D" index="0" unique_id=1905008011]
 shape = SubResource("ConcavePolygonShape3D_6qxip")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Cube_005" parent_id_path=PackedInt32Array(319400797) index="0" unique_id=916561663]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 7
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_005/StaticBody3D" index="0" unique_id=1490030219]
 shape = SubResource("ConcavePolygonShape3D_d04uc")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." index="7" unique_id=1800147610]
+collision_layer = 7
+collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=168028646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -124.519)

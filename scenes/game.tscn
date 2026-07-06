@@ -97,6 +97,8 @@ shape = SubResource("CylinderShape3D_lnu2h")
 
 [node name="ghost obstacles" type="Node3D" parent="." unique_id=1588693570]
 
+[node name="bullets" type="Node3D" parent="." unique_id=421929772]
+
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 [connection signal="spawned" from="MultiplayerSpawner2" to="." method="_on_multiplayer_spawner_spawned"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bs72ogkvdd7d6"]
 
-[ext_resource type="Script" uid="uid://wl4yx2c0lkge" path="res://addons/proto_controller/proto_controller.gd" id="1_ucva2"]
-[ext_resource type="PackedScene" uid="uid://bfptepmd4g4ky" path="res://scenes/golf_club.tscn" id="2_wr06p"]
+[ext_resource type="Script" uid="uid://wl4yx2c0lkge" path="res://scripts/proto_controller.gd" id="1_rji43"]
+[ext_resource type="Script" uid="uid://dro80cawkea46" path="res://scripts/head.gd" id="2_h1xqo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -11,7 +11,7 @@ radius = 0.4
 height = 1.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iof21"]
-radius = 0.4
+radius = 0.6
 height = 1.8
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g2uji"]
@@ -38,7 +38,7 @@ properties/5/replication_mode = 1
 height = 0.5
 
 [node name="ProtoController" type="CharacterBody3D" unique_id=2095220116]
-script = ExtResource("1_ucva2")
+script = ExtResource("1_rji43")
 
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=147759867]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -52,9 +52,10 @@ shape = SubResource("CapsuleShape3D_iof21")
 
 [node name="Head" type="Node3D" parent="." unique_id=1336123649]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+script = ExtResource("2_h1xqo")
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=231186233]
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 1, 1, 4)
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881907, 0, -0.25881907, 0.9659258, 1, 1, 4)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=537029799]
 replication_config = SubResource("SceneReplicationConfig_g2uji")
@@ -63,9 +64,6 @@ replication_config = SubResource("SceneReplicationConfig_g2uji")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.226818, 0)
 billboard = 2
 
-[node name="golfClub" parent="." unique_id=880561351 instance=ExtResource("2_wr06p")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0.45, 0.25, 0)
-
 [node name="ballZone" type="Area3D" parent="." unique_id=869477803]
 collision_layer = 2
 collision_mask = 2
@@ -73,3 +71,5 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ballZone" unique_id=372902028]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.095, 0.25, 0)
 shape = SubResource("CylinderShape3D_wr06p")
+
+[node name="item" type="Node3D" parent="." unique_id=582184061]

@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://1qj7mfo0ss2l"]
+
+[ext_resource type="Script" uid="uid://b421jlvpvpq82" path="res://scripts/rocket.gd" id="1_3341w"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3341w"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3341w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dkv7l"]
+albedo_color = Color(0.42815566, 0.1092766, 0.03566147, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_00dr1"]
+radius = 0.6
+height = 2.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3341w"]
+albedo_color = Color(0.62979835, 0.102675684, 2.8878452e-07, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_dkv7l"]
+material = SubResource("StandardMaterial3D_3341w")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3341w"]
+radius = 6.0
+
+[node name="rocket" type="Node3D" unique_id=940898803]
+script = ExtResource("1_3341w")
+
+[node name="rocketCollider" type="RigidBody3D" parent="." unique_id=675194238]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rocketCollider" unique_id=2145710950]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.407, 1.386, -0.29)
+shape = SubResource("CapsuleShape3D_3341w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="rocketCollider" unique_id=2038432297]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.407, 1.386, -0.29)
+mesh = SubResource("CapsuleMesh_3341w")
+surface_material_override/0 = SubResource("StandardMaterial3D_dkv7l")
+
+[node name="Area3D" type="Area3D" parent="rocketCollider" unique_id=692274499]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rocketCollider/Area3D" unique_id=1475007544]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.407, 1.386, -0.29)
+shape = SubResource("CapsuleShape3D_00dr1")
+
+[node name="explosion" type="CPUParticles3D" parent="rocketCollider" unique_id=9092608]
+emitting = false
+amount = 512
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_dkv7l")
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 25.0
+linear_accel_min = -50.0
+linear_accel_max = -25.0
+scale_amount_min = 0.25
+scale_amount_max = 0.5
+hue_variation_min = 0.2
+hue_variation_max = 0.2
+
+[node name="explosion" type="Area3D" parent="rocketCollider/explosion" unique_id=1959295815]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rocketCollider/explosion/explosion" unique_id=880121683]
+shape = SubResource("SphereShape3D_3341w")
+
+[connection signal="body_entered" from="rocketCollider" to="." method="_on_static_body_3d_body_entered"]
+[connection signal="body_entered" from="rocketCollider/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="finished" from="rocketCollider/explosion" to="." method="_on_explosion_finished"]

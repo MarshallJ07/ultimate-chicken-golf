@@ -23,8 +23,8 @@ func _physics_process(delta: float) -> void:
 	for area in get_node("Area3D").get_overlapping_areas():
 		if area.get_collision_layer_value(collisionLayers["sandTrap"]) and collidedWith["sandTrap"] == 0:
 			collidedWith["sandTrap"] = 1
-			modifierDamp += 20
-			modifierAngularDamp += 20
+			modifierDamp += 10
+			modifierAngularDamp += 10
 			player.swingPower *= 0.75
 	for body in get_node("Area3D").get_overlapping_bodies():
 		if body.get_collision_layer_value(collisionLayers["grass"]) and collidedWith["grass"] == 0:
@@ -40,7 +40,7 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	
 func _ready() -> void:
-	player = get_parent().get_parent().get_node(str(name.to_int()))
+	player = get_parent().get_parent().get_node("player_"+str(name.to_int()))
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
 	
 func _body_entered(node):
