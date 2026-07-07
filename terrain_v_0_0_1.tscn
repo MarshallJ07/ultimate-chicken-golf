@@ -87,8 +87,8 @@ physics_material_override = SubResource("PhysicsMaterial_lmmbu")
 shape = SubResource("ConcavePolygonShape3D_d04uc")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." index="7" unique_id=1800147610]
-collision_layer = 7
-collision_mask = 7
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=168028646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -124.519)

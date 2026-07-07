@@ -15,7 +15,6 @@ var player
 func _physics_process(delta: float) -> void:
 	modifierDamp = 0
 	modifierAngularDamp = 0
-	player.swingPower = 1
 	collidedWith = {
 	"sandTrap":0,
 	"grass":0
@@ -40,10 +39,12 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	
 func _ready() -> void:
-	player = get_parent().get_parent().get_node("player_"+str(name.to_int()))
-	print("player_"+str(name.to_int()))
+	
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
 	
+	
+func get_player_node() -> void:
+	player = get_parent().get_parent().get_node("player_"+str(name.to_int()))
 func _body_entered(node):
 	if node != self:
 		return

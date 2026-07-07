@@ -33,7 +33,12 @@ func sendNameToHost(playerName:String, peer_id:int) -> void:
 @rpc("any_peer","call_local","reliable")
 func sendNametags(playerNameList) -> void:
 	for i in playerNameList.keys():
-		get_node(str(i)).get_node("nametag").text = playerNameList[i]
+		for checkName in get_children():
+			if str(checkName.name) == str(i):
+				print(i)
+				get_node(str(i)).get_node("nametag").text = playerNameList[i]
+				return
+		
 	
 	
 	
