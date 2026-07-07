@@ -6,6 +6,7 @@ var id:int
 
 func _ready() -> void:
 	$MultiplayerSynchronizer.set_multiplayer_authority(1)
+	print(is_multiplayer_authority())
 	if not is_multiplayer_authority():
 		get_child(0).freeze = true
 
@@ -30,3 +31,7 @@ func explode_everywhere(peer_id) -> void:
 
 func _on_explosion_finished() -> void:
 	queue_free()
+
+
+func _on_multiplayer_synchronizer_synchronized() -> void:
+	print('synced')
