@@ -24,9 +24,8 @@ func explode_everywhere(peer_id) -> void:
 	if id == peer_id:
 		$explosion.position = $rocketCollider.position
 		$explosion.restart()
-		$rocketCollider.queue_free()
-		await get_tree().physics_frame
 		check_player_collisions.rpc_id(1,id)
+		$rocketCollider.queue_free()
 		
 #HOST
 @rpc("any_peer", "call_local", "reliable")
