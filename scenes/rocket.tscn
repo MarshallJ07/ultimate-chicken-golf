@@ -13,15 +13,6 @@ albedo_color = Color(0.42815566, 0.1092766, 0.03566147, 1)
 radius = 0.6
 height = 2.2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3341w"]
-albedo_color = Color(0.62979835, 0.102675684, 2.8878452e-07, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_dkv7l"]
-material = SubResource("StandardMaterial3D_3341w")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_3341w"]
-radius = 6.0
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3341w"]
 properties/0/path = NodePath("rocketCollider/explosion:position")
 properties/0/spawn = true
@@ -51,6 +42,15 @@ properties/8/path = NodePath("rocketCollider:angular_velocity")
 properties/8/spawn = true
 properties/8/replication_mode = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3341w"]
+albedo_color = Color(0.62979835, 0.102675684, 2.8878452e-07, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_dkv7l"]
+material = SubResource("StandardMaterial3D_3341w")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3341w"]
+radius = 6.0
+
 [node name="rocket" type="Node3D" unique_id=940898803]
 script = ExtResource("1_3341w")
 
@@ -73,7 +73,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_dkv7l")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.407, 1.386, -0.29)
 shape = SubResource("CapsuleShape3D_00dr1")
 
-[node name="explosion" type="CPUParticles3D" parent="rocketCollider" unique_id=9092608]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=502313924]
+replication_config = SubResource("SceneReplicationConfig_3341w")
+
+[node name="explosion" type="CPUParticles3D" parent="." unique_id=9092608]
 emitting = false
 amount = 512
 lifetime = 0.7
@@ -91,16 +94,13 @@ scale_amount_max = 0.5
 hue_variation_min = 0.2
 hue_variation_max = 0.2
 
-[node name="explosion" type="Area3D" parent="rocketCollider/explosion" unique_id=1959295815]
+[node name="explosion" type="Area3D" parent="explosion" unique_id=1959295815]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.407, 1.386, -0.29)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="rocketCollider/explosion/explosion" unique_id=880121683]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="explosion/explosion" unique_id=880121683]
 shape = SubResource("SphereShape3D_3341w")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=502313924]
-replication_config = SubResource("SceneReplicationConfig_3341w")
 
 [connection signal="renamed" from="." to="." method="_on_renamed"]
 [connection signal="body_entered" from="rocketCollider" to="." method="_on_static_body_3d_body_entered"]
 [connection signal="body_entered" from="rocketCollider/Area3D" to="." method="_on_area_3d_body_entered"]
-[connection signal="finished" from="rocketCollider/explosion" to="." method="_on_explosion_finished"]
+[connection signal="finished" from="explosion" to="." method="_on_explosion_finished"]
