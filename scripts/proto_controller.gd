@@ -145,12 +145,13 @@ func _spawn_rocket_everywhere(peer_id):
 	var dir = -camera.global_transform.basis.z.normalized()
 
 	var rocket = preload("res://scenes/rocket.tscn").instantiate()
+	print(peer_id)
+	rocket.id = peer_id
 	get_parent().get_node("bullets").add_child(rocket)
 
 	rocket.global_position = get_parent().get_node(str(peer_id)).global_position
 	rocket.look_at(get_parent().get_node(str(peer_id)).global_position + dir, Vector3.UP)
-	print(name)
-	rocket.name = str(peer_id)
+	
 	if multiplayer.get_unique_id() == 1:
 		rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
 
