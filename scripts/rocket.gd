@@ -10,7 +10,8 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
 		
 		$rocketCollider/explosion.restart()
-		$rocketCollider/explosion.emitting = true
+		emit_particles_everywhere.rpc()
+		
 		$rocketCollider/Area3D.queue_free()
 		$rocketCollider/MeshInstance3D.queue_free()
 		get_collisions()
@@ -27,3 +28,6 @@ func get_collisions() -> void:
 
 func _on_explosion_finished() -> void:
 	queue_free()
+@rpc("any_peer","call_local","reliable")
+func emit_particles_everywhere() -> void:
+	$rocketCollider/explosion.emitting = true
