@@ -39,7 +39,7 @@ func create_ragdoll_everywhere(hit) -> void:
 		get_parent().get_parent().get_node(str(hit)).get_node("Collider").disabled = true
 		ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
 		ragdoll.id = id
-		get_parent().get_parent().add_child(ragdoll)
+		get_parent().get_parent().get_node("ragdolls").add_child(ragdoll)
 		if not is_multiplayer_authority():
 			return
 		ragdoll.global_position = get_parent().get_parent().get_node(str(id)).global_position
