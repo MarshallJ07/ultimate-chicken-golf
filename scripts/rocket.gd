@@ -5,7 +5,8 @@ var id:int
 func _ready() -> void:
 	$MultiplayerSynchronizer.set_multiplayer_authority(1)
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	
+	if not is_multiplayer_authority():
+		return
 	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
 		
 		$rocketCollider/explosion.restart()
@@ -26,30 +27,3 @@ func get_collisions() -> void:
 
 func _on_explosion_finished() -> void:
 	queue_free()
-
-
-func get_bodies_in_radius(center: Vector3, radius: float = 3.0) -> Array:
-	var sphere := SphereShape3D.new()
-	sphere.radius = radius
-
-	var query := PhysicsShapeQueryParameters3D.new()
-	query.shape = sphere
-	query.transform = Transform3D(Basis(), center)
-	query.collide_with_bodies = true
-	query.collide_with_areas = false
-	query.exclude = [self] # Optional
-
-	var results = get_world_3d().direct_space_state.intersect_shape(query)
-
-	var hits: Array = []
-
-	for result in results:
-		var body = result.collider
-		var direction = (body.global_position - center).normalized()
-
-		hits.append({
-			"body": body,
-			"direction": direction
-		})
-
-	return hits
