@@ -42,9 +42,8 @@ func create_ragdoll_everywhere(hit) -> void:
 		get_parent().get_parent().add_child(ragdoll)
 		if not is_multiplayer_authority():
 			return
-		if id == multiplayer.get_unique_id():
-			ragdoll.position = get_parent().get_parent().get_node(str(id)).position
-			ragdoll.apply_impulse((get_parent().get_parent().get_node(str(hit)).global_position - $rocketCollider/explosion/explosion.global_position).normalized() * 40)
+		ragdoll.global_position = get_parent().get_parent().get_node(str(id)).global_position
+		ragdoll.apply_impulse((get_parent().get_parent().get_node(str(hit)).global_position - $rocketCollider/explosion/explosion.global_position).normalized() * 40)
 
 func _on_explosion_finished() -> void:
 	queue_free()
