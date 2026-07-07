@@ -40,11 +40,11 @@ func create_ragdoll_everywhere(hit) -> void:
 		ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
 		ragdoll.id = id
 		get_parent().get_parent().add_child(ragdoll)
-	if not is_multiplayer_authority():
-		return
-	if id == multiplayer.get_unique_id():
-		ragdoll.position = get_parent().get_parent().get_node(str(id)).position
-		ragdoll.apply_impulse((get_parent().get_parent().get_node(str(hit)).global_position - $rocketCollider/explosion/explosion.global_position).normalized() * 40)
+		if not is_multiplayer_authority():
+			return
+		if id == multiplayer.get_unique_id():
+			ragdoll.position = get_parent().get_parent().get_node(str(id)).position
+			ragdoll.apply_impulse((get_parent().get_parent().get_node(str(hit)).global_position - $rocketCollider/explosion/explosion.global_position).normalized() * 40)
 
 func _on_explosion_finished() -> void:
 	queue_free()
