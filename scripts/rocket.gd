@@ -6,7 +6,7 @@ var id: int
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	
-	if body != get_parent().get_parent().get_node("player_"+str(id)) and body != $rocketCollider:
+	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
 		
 		$rocketCollider/explosion.restart()
 		$rocketCollider/explosion.emitting = true
@@ -24,7 +24,7 @@ func get_collisions() -> void:
 			var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
 			ragdoll.id = id
 			get_parent().get_parent().add_child(ragdoll)
-			ragdoll.position = get_parent().get_parent().get_node("player_"+str(id)).position
+			ragdoll.position = get_parent().get_parent().get_node(str(id)).position
 			ragdoll.apply_impulse((get_parent().get_parent().get_node(str(ragdoll.name)).position - $rocketCollider/explosion/explosion.position).normalized() * 10)
 
 func _on_explosion_finished() -> void:

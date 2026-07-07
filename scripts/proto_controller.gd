@@ -100,7 +100,7 @@ func _ready() -> void:
 	look_rotation.x = head.rotation.x
 	
 func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
+	set_multiplayer_authority(int(name))
 	
 	if is_multiplayer_authority():
 		$Head/Camera3D.current = true

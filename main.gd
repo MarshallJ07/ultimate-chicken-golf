@@ -15,7 +15,7 @@ func on_host_created() -> void:
 	
 func spawn_player(peer_id:int) -> void:
 	var new_player := PLAYER_CONTROLLER.instantiate() as CharacterBody3D
-	new_player.name = "player_"+str(peer_id)
+	new_player.name = str(peer_id)
 	
 	add_child(new_player)
 	initialize_player(new_player)
@@ -28,7 +28,7 @@ func getName(peer_id:int) -> void:
 	sendNameToHost.rpc_id(1,Steam.getPersonaName(),peer_id)
 @rpc("any_peer","call_local","reliable")
 func sendNameToHost(playerName:String, peer_id:int) -> void:
-	playerNames["player_"+str(peer_id)] = playerName
+	playerNames[str(peer_id)] = playerName
 	sendNametags.rpc(playerNames)
 @rpc("any_peer","call_local","reliable")
 func sendNametags(playerNameList) -> void:

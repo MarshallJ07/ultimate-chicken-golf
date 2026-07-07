@@ -68,7 +68,7 @@ func release_mouse():
 
 
 func _on_timer_timeout() -> void:
-	get_parent().get_node("player_"+str(id)).position = position
-	get_parent().get_node("player_"+str(id)).show()
-	get_parent().get_node("player_"+str(id)).get_node("Head").get_node("Camera3D").make_current()
+	get_parent().get_node(str(id)).position = position
+	get_parent().get_node(str(id)).show()
+	get_parent().get_node(str(id)).get_node("Head").get_node("Camera3D").make_current()
 	queue_free()
