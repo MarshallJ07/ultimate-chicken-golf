@@ -22,9 +22,9 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func explode_everywhere(peer_id) -> void:
 	if id == peer_id:
-		$explosion.position = $rocketCollider.position
 		$explosion.restart()
-		check_player_collisions.rpc_id(1,id)
+		if is_multiplayer_authority():
+			check_player_collisions.rpc_id(1,id)
 		
 		
 #HOST
@@ -41,11 +41,12 @@ func check_player_collisions(peer_id) -> void:
 	# Create the query
 	var query = PhysicsShapeQueryParameters3D.new()
 	query.shape = sphere
+	print(get_children())
 	query.transform = Transform3D(
 		Basis.IDENTITY,
 		$rocketCollider.global_position
 	)
-
+	print(1)
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
 
