@@ -25,7 +25,7 @@ func explode_everywhere(peer_id) -> void:
 		$explosion.position = $rocketCollider.position
 		$explosion.restart()
 		check_player_collisions.rpc_id(1,id)
-		$rocketCollider.queue_free()
+		
 		
 #HOST
 @rpc("any_peer", "call_local", "reliable")
@@ -59,6 +59,6 @@ func check_player_collisions(peer_id) -> void:
 
 		if body is CharacterBody3D:
 			print("Hit:", body.name)
-			
+	$rocketCollider.queue_free()
 func _on_explosion_finished() -> void:
 	queue_free()
