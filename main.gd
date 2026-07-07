@@ -1,73 +1,94 @@
 extends Node
 
-
 const PLAYER_CONTROLLER = preload("uid://bs72ogkvdd7d6")
 const BALL = preload("uid://lcpwgxrnd7nb")
+
 var players: Array[CharacterBody3D]
 var playerNames = {}
 
-func _ready() -> void:
-	Networking.host_created.connect(on_host_created)
-	
-func on_host_created() -> void:
-	spawn_player(multiplayer.get_unique_id())
-	multiplayer.peer_connected.connect(spawn_player)
-	
-func spawn_player(peer_id:int) -> void:
-	var new_player := PLAYER_CONTROLLER.instantiate() as CharacterBody3D
-	new_player.name = str(peer_id)
-	
-	add_child(new_player)
-	initialize_player(new_player)
-	getName.rpc_id(peer_id,peer_id)
-	spawn_ball(peer_id)
-	
-	
+func _ready():
+	Networking.host_created.connect(_on_host_created)
+	multiplayer.peer_connected.connect(_peer_connected)
+
+
+func _on_host_created():
+	# Host spawns itself
+	spawn_player.rpc(multiplayer.get_unique_id())
+
+
+func _peer_connected(peer_id:int):
+	if !multiplayer.is_server():
+		return
+
+	# Tell everyone to spawn the new player
+	spawn_player.rpc(peer_id)
+
+	# Tell the new client about everyone already in the game
+	for p in players:
+		var id = int(p.name.trim_prefix("player_"))
+		if id != peer_id:
+			spawn_player.rpc_id(peer_id, id)
+
+
+@rpc("authority","call_local","reliable")
+func spawn_player(peer_id:int):
+
+	if has_node(str(peer_id)):
+		return
+
+	var player := PLAYER_CONTROLLER.instantiate()
+	player.name = str(peer_id)
+
+	add_child(player)
+	initialize_player(player)
+
+	var ball := BALL.instantiate()
+	ball.name = str(peer_id)
+
+	$balls.add_child(ball)
+	initialize_ball(ball)
+
+	getName.rpc_id(peer_id, peer_id)
+
+
 @rpc("any_peer","call_local","reliable")
-func getName(peer_id:int) -> void:
+func getName(peer_id:int):
 	sendNameToHost.rpc_id(1,Steam.getPersonaName(),peer_id)
+
+
 @rpc("any_peer","call_local","reliable")
-func sendNameToHost(playerName:String, peer_id:int) -> void:
+func sendNameToHost(playerName:String,peer_id:int):
+
 	playerNames[str(peer_id)] = playerName
 	sendNametags.rpc(playerNames)
+
+
 @rpc("any_peer","call_local","reliable")
-func sendNametags(playerNameList) -> void:
-	for i in playerNameList.keys():
-		for checkName in get_children():
-			if str(checkName.name) == str(i):
-				get_node(str(i)).get_node("nametag").text = playerNameList[i]
-				return
-		
-	
-	
-	
-	
-func spawn_ball(peer_id:int) -> void:
-	var ball := BALL.instantiate() as RigidBody3D
-	ball.name = "Ball_%d" % peer_id
-	$balls.add_child(ball)
-	
-	initialize_ball(ball)
-func initialize_player(player: CharacterBody3D) -> void:
-	print('added ',player.name)
+func sendNametags(playerNameList):
+
+	for key in playerNameList.keys():
+		var p = get_node_or_null(key)
+
+		if p:
+			p.get_node("nametag").text = playerNameList[key]
+
+
+func initialize_player(player:CharacterBody3D):
+
 	player.position = $SpawnPoint.position
+
 	for other in players:
 		player.add_collision_exception_with(other)
+		other.add_collision_exception_with(player)
+
 	players.append(player)
-	
-func initialize_ball(ball: RigidBody3D) -> void:
+
+
+func initialize_ball(ball:RigidBody3D):
+
 	ball.position = $SpawnPoint.position
-	
 
 
-func _on_host_pressed() -> void:
+func _on_host_pressed():
 	Networking.host_lobby()
-	get_node("CanvasLayer").get_node("Host").disabled = true
-
-
-func _on_multiplayer_spawner_spawned(node: Node) -> void:
-	print(node)
-	if node is CharacterBody3D:
-		initialize_player(node)
-	if node is RigidBody3D:
-		initialize_ball(node)
+	$CanvasLayer/Host.disabled = true

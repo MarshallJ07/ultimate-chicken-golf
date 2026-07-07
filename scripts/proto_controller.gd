@@ -83,7 +83,12 @@ var ghostSandTrap = preload("res://scenes/sand_trap.tscn").instantiate()
 #SHOT VARIABLES
 var swingPower = 1
 
-func _ready() -> void:
+func _ready():
+	set_multiplayer_authority(name.to_int())
+
+	$Head/Camera3D.current = is_multiplayer_authority()
+
+	# everything else already in your _ready()
 	#CREATE DEBUG SANDTRAP
 	get_parent().get_node("ghost obstacles").add_child(ghostSandTrap)
 	var material = ghostSandTrap.get_child(0).get_active_material(0).duplicate()
@@ -99,13 +104,7 @@ func _ready() -> void:
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
 	
-func _enter_tree() -> void:
-	set_multiplayer_authority(int(name))
-	
-	if is_multiplayer_authority():
-		$Head/Camera3D.current = true
-	else:
-		$Head/Camera3D.current = false
+
 		
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_ball_everywhere(power: int,ball):
