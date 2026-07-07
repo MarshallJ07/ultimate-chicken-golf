@@ -148,10 +148,12 @@ func _spawn_rocket_everywhere(peer_id):
 
 	rocket.global_position = get_parent().get_node(str(peer_id)).global_position
 	rocket.look_at(get_parent().get_node(str(peer_id)).global_position + dir, Vector3.UP)
-
+	print(rocket.global_position)
 	rocket.id = name
-
-	rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
+	print('PEER ID   ',peer_id, '   mult   ',   multiplayer.get_unique_id(), '  ==  ', peer_id == multiplayer.get_unique_id())
+	if multiplayer.get_unique_id() == 1:
+		print('added')
+		rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
 
 func _shootRPG():
 	_shootRPG_rpc.rpc_id(1,multiplayer.get_unique_id())
