@@ -18,6 +18,7 @@ func spawn_player(peer_id:int) -> void:
 	new_player.name = "player_"+str(peer_id)
 	
 	add_child(new_player)
+	print('added ',new_player.name)
 	initialize_player(new_player)
 	getName.rpc_id(peer_id,peer_id)
 	spawn_ball(peer_id)
@@ -35,7 +36,6 @@ func sendNametags(playerNameList) -> void:
 	for i in playerNameList.keys():
 		for checkName in get_children():
 			if str(checkName.name) == str(i):
-				print(i)
 				get_node(str(i)).get_node("nametag").text = playerNameList[i]
 				return
 		
@@ -66,6 +66,7 @@ func _on_host_pressed() -> void:
 
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
+	print(node)
 	if node is CharacterBody3D:
 		initialize_player(node)
 	if node is RigidBody3D:

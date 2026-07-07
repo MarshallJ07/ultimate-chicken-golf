@@ -76,11 +76,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.141457, 17.037476)
 _spawnable_scenes = PackedStringArray("uid://bs72ogkvdd7d6")
 spawn_path = NodePath("..")
 
-[node name="MultiplayerSpawner2" type="MultiplayerSpawner" parent="." unique_id=1960930901]
-_spawnable_scenes = PackedStringArray("uid://lcpwgxrnd7nb")
-spawn_path = NodePath("../balls")
-
 [node name="balls" type="Node3D" parent="." unique_id=714516021]
+
+[node name="MultiplayerSpawner2" type="MultiplayerSpawner" parent="balls" unique_id=1960930901]
+_spawnable_scenes = PackedStringArray("uid://lcpwgxrnd7nb")
+spawn_path = NodePath("..")
 
 [node name="Hole" type="Area3D" parent="." unique_id=1712896260]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 155)
@@ -101,4 +101,4 @@ shape = SubResource("CylinderShape3D_lnu2h")
 
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
-[connection signal="spawned" from="MultiplayerSpawner2" to="." method="_on_multiplayer_spawner_spawned"]
+[connection signal="spawned" from="balls/MultiplayerSpawner2" to="." method="_on_multiplayer_spawner_spawned"]
