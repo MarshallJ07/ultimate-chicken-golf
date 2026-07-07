@@ -58,16 +58,18 @@ func check_player_collisions(peer_id) -> void:
 		var body = result.collider
 
 		if body is CharacterBody3D:
-			print("Hit:", body.name)
-			create_ragdoll_everywhere.rpc(body.name.to_int())
+			print("Hit:", body.name,'   ',body.name.to_int())
+			body.create_ragdoll_everywhere.rpc(body.name.to_int())
 			
 	$rocketCollider.queue_free()
 	
 #EVERYONE
 @rpc("any_peer", "call_local", "reliable")
 func create_ragdoll_everywhere(peer_id) -> void:
+	print(peer_id, '   id  ',id)
 	if id != peer_id:
 		return
+	print('making ragdoll')
 	var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
 	ragdoll.id = id
 	get_parent().get_parent().get_node("ragdolls").add_child(ragdoll)
