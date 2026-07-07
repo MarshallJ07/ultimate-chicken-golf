@@ -18,7 +18,6 @@ func spawn_player(peer_id:int) -> void:
 	new_player.name = "player_"+str(peer_id)
 	
 	add_child(new_player)
-	print('added ',new_player.name)
 	initialize_player(new_player)
 	getName.rpc_id(peer_id,peer_id)
 	spawn_ball(peer_id)
@@ -50,6 +49,7 @@ func spawn_ball(peer_id:int) -> void:
 	
 	initialize_ball(ball)
 func initialize_player(player: CharacterBody3D) -> void:
+	print('added ',player.name)
 	player.position = $SpawnPoint.position
 	for other in players:
 		player.add_collision_exception_with(other)
