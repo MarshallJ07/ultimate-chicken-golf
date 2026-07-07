@@ -140,7 +140,8 @@ func shoot_rpc(power: int, node):
 	
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_rocket_everywhere(peer_id):
-	
+	if not is_multiplayer_authority():
+		return
 	var dir = -camera.global_transform.basis.z.normalized()
 
 	var rocket = preload("res://scenes/rocket.tscn").instantiate()

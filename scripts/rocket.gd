@@ -4,7 +4,7 @@ extends Node3D
 
 func _ready() -> void:
 	$MultiplayerSynchronizer.set_multiplayer_authority(name.to_int())
-
+	print(name.to_int())
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	
 	if body != get_parent().get_parent().get_node(str(name)) and body != $rocketCollider:
