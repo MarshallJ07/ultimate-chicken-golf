@@ -60,6 +60,8 @@ var move_speed : float = 0.0
 var freeflying : bool = true
 var building : bool = true
 
+var externalVelocity := Vector3.ZERO
+
 var items := ["club","rpg",null,null]
 var itemActionFuncs := {
 	"club":"actionClub",
@@ -152,7 +154,6 @@ func _spawn_rocket_everywhere(peer_id):
 		rocket.global_position = global_position
 		rocket.look_at(global_position + dir, Vector3.UP)
 	
-		print('impulse')
 		rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
 
 func _shootRPG():
@@ -193,7 +194,7 @@ func _get_new_ball() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-	
+	print(velocity)
 			
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
@@ -270,12 +271,18 @@ func _physics_process(delta: float) -> void:
 	if can_move:
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
 		var move_dir := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
+		var desiredVelocity := Vector3.ZERO
+
 		if move_dir:
-			velocity.x = move_dir.x * move_speed
-			velocity.z = move_dir.z * move_speed
-		else:
-			velocity.x = move_toward(velocity.x, 0, move_speed)
-			velocity.z = move_toward(velocity.z, 0, move_speed)
+			desiredVelocity.x = move_dir.x * move_speed
+			desiredVelocity.z = move_dir.z * move_speed
+
+		velocity.x = desiredVelocity.x + externalVelocity.x
+		velocity.z = desiredVelocity.z + externalVelocity.z
+
+		externalVelocity.x = move_toward(externalVelocity.x, 0.0, 15.0 * delta)
+		externalVelocity.z = move_toward(externalVelocity.z, 0.0, 15.0 * delta)
 	else:
 		velocity.x = 0
 		velocity.y = 0

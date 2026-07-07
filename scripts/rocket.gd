@@ -11,20 +11,27 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		
 		$rocketCollider/explosion.restart()
 		emit_particles_everywhere.rpc()
-		
+		$rocketCollider/CollisionShape3D.queue_free()
 		$rocketCollider/Area3D.queue_free()
 		$rocketCollider/MeshInstance3D.queue_free()
-		get_collisions()
+		get_collisions.rpc_id(1)
 		
-		
+@rpc("any_peer","call_local","reliable")
 func get_collisions() -> void:
 	for hit in $rocketCollider/explosion/explosion.get_overlapping_bodies():
 		if hit is CharacterBody3D:
-			get_parent().get_parent().get_node(str(hit.name)).hide()
-			var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
-			get_parent().get_parent().add_child(ragdoll)
-			ragdoll.position = get_parent().get_parent().get_node(str(id)).position
-			ragdoll.apply_impulse((get_parent().get_parent().get_node(str(ragdoll.name)).position - $rocketCollider/explosion/explosion.position).normalized() * 10)
+			create_ragdoll_everywhere.rpc(hit.name)
+			
+			
+@rpc("any_peer","call_local","reliable")
+func create_ragdoll_everywhere(hit) -> void:
+	get_parent().get_parent().get_node(str(hit)).get_node("Mesh").hide()
+	get_parent().get_parent().get_node(str(hit)).get_node("Collider").disabled = true
+	var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
+	get_parent().get_parent().add_child(ragdoll)
+	ragdoll.position = get_parent().get_parent().get_node(str(id)).position
+	
+	ragdoll.apply_impulse((get_parent().get_parent().get_node(str(hit)).global_position - $rocketCollider/explosion/explosion.global_position).normalized() * 40)
 
 func _on_explosion_finished() -> void:
 	queue_free()
