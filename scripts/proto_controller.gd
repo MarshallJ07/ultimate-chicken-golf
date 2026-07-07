@@ -150,7 +150,9 @@ func _spawn_rocket_everywhere(peer_id):
 	get_parent().get_node("bullets").add_child(rocket)
 	if multiplayer.get_unique_id() == 1:
 		var dir = -camera.global_transform.basis.z.normalized()
-		rocket.get_node("CollisionShape3D").global_position = global_position
+		rocket.position = position
+		print(rocket.position)
+		rocket.getPosition()
 		rocket.look_at(global_position + dir, Vector3.UP)
 	
 		rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)

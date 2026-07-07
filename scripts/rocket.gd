@@ -2,8 +2,12 @@ extends Node3D
 
 var id:int
 
+func getPosition() -> void:
+	print(position)
+
 func _ready() -> void:
 	$MultiplayerSynchronizer.set_multiplayer_authority(1)
+	
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
 		print(body)
