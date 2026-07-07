@@ -18,11 +18,13 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		$rocketCollider/CollisionShape3D.queue_free()
 		$rocketCollider/Area3D.queue_free()
 		$rocketCollider/MeshInstance3D.queue_free()
-		get_collisions.rpc_id(1)
-		
+		get_collisions.rpc_id(1,id)
+
+
+#CALLED ON HOST
 @rpc("any_peer","call_local","reliable")
-func get_collisions() -> void:
-	if not is_multiplayer_authority():
+func get_collisions(peer_id) -> void:
+	if not id == peer_id:
 		return
 	for hit in $rocketCollider/explosion/explosion.get_overlapping_bodies():
 		if hit is CharacterBody3D:
