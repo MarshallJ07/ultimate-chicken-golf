@@ -15,6 +15,8 @@ extends CharacterBody3D
 @export var can_sprint : bool = true
 ## Can we press to enter freefly mode (noclip)?
 @export var can_freefly : bool = true
+## Can we perform actions?
+@export var can_use_action : bool = true
 
 @export_group("Speeds")
 ## Look around rotation speed.
@@ -252,7 +254,7 @@ func _physics_process(delta: float) -> void:
 			get_node("item").add_child(itemScenes[currentItem].instantiate())
 
 	if Input.is_action_just_pressed(input_shoot):
-		if currentItem != null:
+		if currentItem != null and can_use_action:
 			call(itemActionFuncs[currentItem])
 		
 	if Input.is_action_just_pressed(input_new_ball):

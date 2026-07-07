@@ -37,6 +37,13 @@ properties/5/path = NodePath("Head:position")
 properties/5/spawn = true
 properties/5/replication_mode = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rji43"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_h1xqo"]
+material = SubResource("StandardMaterial3D_rji43")
+size = Vector3(0.555, 0.16, 0.27)
+
 [node name="ProtoController" type="CharacterBody3D" unique_id=2095220116]
 script = ExtResource("1_rji43")
 
@@ -73,3 +80,7 @@ shape = SubResource("CylinderShape3D_wr06p")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1041557718]
 replication_config = SubResource("SceneReplicationConfig_rji43")
+
+[node name="eyes" type="MeshInstance3D" parent="." unique_id=2026489182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.455, -0.275)
+mesh = SubResource("BoxMesh_h1xqo")
