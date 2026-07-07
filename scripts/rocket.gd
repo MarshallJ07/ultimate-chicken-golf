@@ -10,9 +10,7 @@ func _ready() -> void:
 	
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
-		print(body)
 		$rocketCollider/explosion.restart()
-		print($rocketCollider/explosion.position)
 		emit_particles_everywhere.rpc()
 		$rocketCollider/CollisionShape3D.queue_free()
 		$rocketCollider/Area3D.queue_free()
@@ -47,3 +45,8 @@ func _on_explosion_finished() -> void:
 @rpc("any_peer","call_local","reliable")
 func emit_particles_everywhere() -> void:
 	$rocketCollider/explosion.emitting = true
+
+
+func _on_multiplayer_synchronizer_synchronized() -> void:
+	if not is_multiplayer_authority():
+		print('synchronized')
