@@ -59,7 +59,7 @@ func check_player_collisions(peer_id) -> void:
 
 		if body is CharacterBody3D:
 			print("Hit:", body.name)
-			create_ragdoll_everywhere.rpc(id)
+			create_ragdoll_everywhere.rpc(body.name.to_int())
 			
 	$rocketCollider.queue_free()
 	

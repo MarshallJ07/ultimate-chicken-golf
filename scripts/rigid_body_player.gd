@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 #HOST
 @rpc("call_local", "reliable")
 func move_player(peer_id) -> void:
-	if is_multiplayer_authority() and peer_id == id:
+	if peer_id == id:
 		get_parent().get_parent().get_node(str(id)).global_position = global_position
 
 #HOST
