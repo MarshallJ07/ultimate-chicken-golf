@@ -27,12 +27,12 @@ func _on_timer_timeout() -> void:
 @rpc("any_peer","call_local","reliable")
 func reset_character_everywhere(ragdollID) -> void:
 	if id == ragdollID:
-			get_parent().get_node(str(multiplayer.get_unique_id())).externalVelocity = linear_velocity
-			get_parent().get_node(str(multiplayer.get_unique_id())).get_node("Collider").disabled = false
-			get_parent().get_node(str(multiplayer.get_unique_id())).get_node("Mesh").show()
+		get_parent().get_node(str(id)).externalVelocity = linear_velocity
+		get_parent().get_node(str(id)).get_node("Collider").disabled = false
+		get_parent().get_node(str(id)).get_node("Mesh").show()
 	if not is_multiplayer_authority():
 		return
-	get_parent().get_node(str(multiplayer.get_unique_id())).position = position
+	get_parent().get_node(str(id)).position = position
 	
 	queue_free()
 
