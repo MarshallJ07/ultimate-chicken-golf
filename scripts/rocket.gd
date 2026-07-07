@@ -22,8 +22,8 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func explode_everywhere(peer_id) -> void:
 	if id == peer_id:
-		$explosion.restart()
 		$explosion.position = $rocketCollider.position
+		$explosion.restart()
 		if is_multiplayer_authority():
 			check_player_collisions.rpc_id(1,id)
 		
