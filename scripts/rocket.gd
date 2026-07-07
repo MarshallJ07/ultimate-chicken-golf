@@ -72,6 +72,7 @@ func create_ragdoll_everywhere(peer_id) -> void:
 	for i in get_parent().get_parent().get_node("ragdolls").get_children():
 		if i.id == peer_id:
 			skip = true
+			ragdoll = i
 	if not skip:
 		ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
 		ragdoll.id = peer_id
