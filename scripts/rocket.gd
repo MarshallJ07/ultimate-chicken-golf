@@ -6,7 +6,7 @@ func _ready() -> void:
 	$MultiplayerSynchronizer.set_multiplayer_authority(1)
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
-		
+		print(body)
 		$rocketCollider/explosion.restart()
 		emit_particles_everywhere.rpc()
 		$rocketCollider/CollisionShape3D.queue_free()
