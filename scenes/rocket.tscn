@@ -22,6 +22,23 @@ material = SubResource("StandardMaterial3D_3341w")
 [sub_resource type="SphereShape3D" id="SphereShape3D_3341w"]
 radius = 6.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3341w"]
+properties/0/path = NodePath("rocketCollider:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("rocketCollider:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("rocketCollider/explosion:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("rocketCollider/explosion:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("rocketCollider/explosion:scale")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
 [node name="rocket" type="Node3D" unique_id=940898803]
 script = ExtResource("1_3341w")
 
@@ -66,6 +83,9 @@ hue_variation_max = 0.2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="rocketCollider/explosion/explosion" unique_id=880121683]
 shape = SubResource("SphereShape3D_3341w")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=502313924]
+replication_config = SubResource("SceneReplicationConfig_3341w")
 
 [connection signal="body_entered" from="rocketCollider" to="." method="_on_static_body_3d_body_entered"]
 [connection signal="body_entered" from="rocketCollider/Area3D" to="." method="_on_area_3d_body_entered"]
