@@ -89,6 +89,7 @@ func _ready() -> void:
 	var material = ghostSandTrap.get_child(0).get_active_material(0).duplicate()
 	ghostSandTrap.get_child(0).set_surface_override_material(0, material)
 	material.albedo_color.a = 0.1
+	await get_tree().process_frame
 	get_parent().get_node("balls").get_node(str(name.to_int())).get_player_node()
 	
 	var club = itemScenes[currentItem].instantiate()
