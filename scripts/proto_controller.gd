@@ -150,7 +150,7 @@ func _spawn_rocket_everywhere(peer_id):
 
 	rocket.global_position = global_position
 	rocket.look_at(global_position + dir, Vector3.UP)
-	if multiplayer.get_unique_id() == peer_id:
+	if multiplayer.get_unique_id() == 1 and str(name) == str(peer_id):
 		print('impulse')
 		rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
 
