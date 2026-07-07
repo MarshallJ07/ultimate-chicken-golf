@@ -39,9 +39,6 @@ albedo_color = Color(0.62979835, 0.102675684, 2.8878452e-07, 1)
 [sub_resource type="SphereMesh" id="SphereMesh_dkv7l"]
 material = SubResource("StandardMaterial3D_3341w")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_3341w"]
-radius = 6.0
-
 [node name="rocket" type="Node3D" unique_id=940898803]
 script = ExtResource("1_3341w")
 
@@ -84,12 +81,6 @@ scale_amount_min = 0.25
 scale_amount_max = 0.5
 hue_variation_min = 0.2
 hue_variation_max = 0.2
-
-[node name="explosion" type="Area3D" parent="explosion" unique_id=1959295815]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.407, 1.386, -0.29)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="explosion/explosion" unique_id=880121683]
-shape = SubResource("SphereShape3D_3341w")
 
 [connection signal="renamed" from="." to="." method="_on_renamed"]
 [connection signal="body_entered" from="rocketCollider" to="." method="_on_static_body_3d_body_entered"]
