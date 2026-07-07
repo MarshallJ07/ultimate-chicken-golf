@@ -3,6 +3,8 @@ extends Node3D
 
 
 var id: int
+func _ready() -> void:
+	$MultiplayerSynchronizer.set_multiplayer_authority(name.to_int())
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	
