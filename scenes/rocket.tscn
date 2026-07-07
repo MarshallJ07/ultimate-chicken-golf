@@ -92,6 +92,7 @@ hue_variation_min = 0.2
 hue_variation_max = 0.2
 
 [node name="explosion" type="Area3D" parent="rocketCollider/explosion" unique_id=1959295815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.407, 1.386, -0.29)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="rocketCollider/explosion/explosion" unique_id=880121683]
 shape = SubResource("SphereShape3D_3341w")
