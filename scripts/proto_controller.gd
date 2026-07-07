@@ -143,7 +143,6 @@ func shoot_rpc(power: int, node):
 func _spawn_rocket_everywhere(peer_id):
 	if not str(name) == str(peer_id):
 		return
-	print('shoot')
 	
 
 	var rocket = preload("res://scenes/rocket.tscn").instantiate()
@@ -194,7 +193,6 @@ func _get_new_ball() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-	print(velocity)
 			
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:

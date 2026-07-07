@@ -21,6 +21,7 @@ func get_collisions() -> void:
 	for hit in $rocketCollider/explosion/explosion.get_overlapping_bodies():
 		if hit is CharacterBody3D:
 			create_ragdoll_everywhere.rpc(hit.name)
+			print(hit.name)
 			
 			
 @rpc("any_peer","call_local","reliable")
