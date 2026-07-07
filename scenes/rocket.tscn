@@ -101,6 +101,5 @@ replication_config = SubResource("SceneReplicationConfig_3341w")
 
 [connection signal="renamed" from="." to="." method="_on_renamed"]
 [connection signal="body_entered" from="rocketCollider" to="." method="_on_static_body_3d_body_entered"]
-[connection signal="body_entered" from="rocketCollider/Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="finished" from="rocketCollider/explosion" to="." method="_on_explosion_finished"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_synchronized"]

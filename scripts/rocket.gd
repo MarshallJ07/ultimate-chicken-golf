@@ -2,8 +2,7 @@ extends Node3D
 
 var id:int
 
-func getPosition() -> void:
-	print(position)
+
 
 func _ready() -> void:
 	$MultiplayerSynchronizer.set_multiplayer_authority(1)
@@ -23,6 +22,8 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		
 @rpc("any_peer","call_local","reliable")
 func get_collisions() -> void:
+	if not is_multiplayer_authority():
+		return
 	for hit in $rocketCollider/explosion/explosion.get_overlapping_bodies():
 		if hit is CharacterBody3D:
 			print(hit.name)
@@ -49,8 +50,3 @@ func _on_explosion_finished() -> void:
 @rpc("any_peer","call_local","reliable")
 func emit_particles_everywhere() -> void:
 	$rocketCollider/explosion.emitting = true
-
-
-func _on_multiplayer_synchronizer_synchronized() -> void:
-	if not is_multiplayer_authority():
-		print('synchronized')
