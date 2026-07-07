@@ -10,15 +10,14 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-	follow_ragdoll_everywhere.rpc(id)
-	
+	print(position, '  ID:  ',id)
+	follow_ragdoll_everywhere.rpc_id(1,id)
+
+#CALLED ON HOST
 @rpc("any_peer","call_local","reliable")
 func follow_ragdoll_everywhere(ragdollID) -> void:
-	if not is_multiplayer_authority():
-		return
-	if not id == ragdollID:
-		return
-	get_parent().get_node(str(multiplayer.get_unique_id())).position = position
+	if id == ragdollID:
+		get_parent().get_node(str(id)).global_position = global_position
 
 func _on_timer_timeout() -> void:
 	if not is_multiplayer_authority():
