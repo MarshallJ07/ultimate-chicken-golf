@@ -85,7 +85,7 @@ var swingPower = 1
 
 func _ready():
 	set_multiplayer_authority(name.to_int())
-
+	print('player ',name.to_int())
 	$Head/Camera3D.current = is_multiplayer_authority()
 
 	# everything else already in your _ready()
