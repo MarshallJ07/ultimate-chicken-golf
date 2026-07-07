@@ -26,7 +26,7 @@ func get_collisions() -> void:
 @rpc("any_peer","call_local","reliable")
 func create_ragdoll_everywhere(hit) -> void:
 	var ragdoll
-	if id == hit:
+	if str(id) == str(hit):
 		get_parent().get_parent().get_node(str(hit)).get_node("Mesh").hide()
 		get_parent().get_parent().get_node(str(hit)).get_node("Collider").disabled = true
 		ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
