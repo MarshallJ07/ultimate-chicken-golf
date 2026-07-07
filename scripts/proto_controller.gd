@@ -139,8 +139,9 @@ func shoot_rpc(power: int, node):
 	
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_rocket_everywhere(peer_id):
-	if not multiplayer.get_unique_id() == peer_id:
+	if not str(name) == str(peer_id):
 		return
+	print('shoot')
 	var dir = -camera.global_transform.basis.z.normalized()
 
 	var rocket = preload("res://scenes/rocket.tscn").instantiate()
@@ -149,8 +150,8 @@ func _spawn_rocket_everywhere(peer_id):
 
 	rocket.global_position = global_position
 	rocket.look_at(global_position + dir, Vector3.UP)
-	
-	rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
+	if not multiplayer.get_unique_id() == peer_id:
+		rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
 
 func _shootRPG():
 	_shootRPG_rpc.rpc_id(1,multiplayer.get_unique_id())
