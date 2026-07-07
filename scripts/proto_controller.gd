@@ -85,7 +85,6 @@ var swingPower = 1
 
 func _ready():
 	set_multiplayer_authority(name.to_int())
-	print('player ',name.to_int())
 	$Head/Camera3D.current = is_multiplayer_authority()
 
 	# everything else already in your _ready()
@@ -140,20 +139,18 @@ func shoot_rpc(power: int, node):
 	
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_rocket_everywhere(peer_id):
-	if not is_multiplayer_authority():
+	if not multiplayer.get_unique_id() == peer_id:
 		return
 	var dir = -camera.global_transform.basis.z.normalized()
 
 	var rocket = preload("res://scenes/rocket.tscn").instantiate()
-	print(peer_id)
 	rocket.id = peer_id
 	get_parent().get_node("bullets").add_child(rocket)
 
-	rocket.global_position = get_parent().get_node(str(peer_id)).global_position
-	rocket.look_at(get_parent().get_node(str(peer_id)).global_position + dir, Vector3.UP)
+	rocket.global_position = global_position
+	rocket.look_at(global_position + dir, Vector3.UP)
 	
-	if multiplayer.get_unique_id() == 1:
-		rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
+	rocket.get_child(0).apply_central_impulse(-rocket.global_transform.basis.z * 100)
 
 func _shootRPG():
 	_shootRPG_rpc.rpc_id(1,multiplayer.get_unique_id())
