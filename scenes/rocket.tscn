@@ -38,6 +38,18 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath(".:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath("rocketCollider:position")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("rocketCollider:rotation")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("rocketCollider:linear_velocity")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("rocketCollider:angular_velocity")
+properties/8/spawn = true
+properties/8/replication_mode = 1
 
 [node name="rocket" type="Node3D" unique_id=940898803]
 script = ExtResource("1_3341w")
