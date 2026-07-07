@@ -9,6 +9,8 @@ func _ready() -> void:
 	if not is_multiplayer_authority():
 		get_child(0).freeze = true
 func _on_area_3d_body_entered(body: Node3D) -> void:
+	if not is_multiplayer_authority():
+		return
 	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
 		$rocketCollider/explosion.restart()
 		emit_particles_everywhere.rpc()
