@@ -70,4 +70,5 @@ billboard = 2
 
 [node name="stabalizer" type="Node3D" parent="." unique_id=1171975729]
 
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_synchronized"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -6,7 +6,7 @@ var id: int
 	
 func _ready() -> void:
 	$Timer.start()
-
+	set_multiplayer_authority(1)
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
@@ -35,3 +35,8 @@ func reset_character_everywhere(ragdollID) -> void:
 	get_parent().get_node(str(multiplayer.get_unique_id())).position = position
 	
 	queue_free()
+
+
+func _on_multiplayer_synchronizer_synchronized() -> void:
+	if id != 1 and not is_multiplayer_authority():
+		print('synchonized')
