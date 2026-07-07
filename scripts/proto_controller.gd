@@ -148,8 +148,11 @@ func _spawn_rocket_everywhere(peer_id):
 	
 
 	var rocket = preload("res://scenes/rocket.tscn").instantiate()
+	rocket.set_multiplayer_authority(1)
 	rocket.id = peer_id
 	get_parent().get_node("bullets").add_child(rocket)
+	if peer_id != 1:
+		print('made rocket')
 	if multiplayer.get_unique_id() == 1:
 		var dir = -camera.global_transform.basis.z.normalized()
 		rocket.global_position = global_position
