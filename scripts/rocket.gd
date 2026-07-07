@@ -2,13 +2,12 @@ extends Node3D
 
 
 
-var id: int
 func _ready() -> void:
 	$MultiplayerSynchronizer.set_multiplayer_authority(name.to_int())
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	
-	if body != get_parent().get_parent().get_node(str(id)) and body != $rocketCollider:
+	if body != get_parent().get_parent().get_node(str(name)) and body != $rocketCollider:
 		
 		$rocketCollider/explosion.restart()
 		$rocketCollider/explosion.emitting = true
@@ -24,9 +23,8 @@ func get_collisions() -> void:
 		if hit is CharacterBody3D:
 			get_parent().get_parent().get_node(str(hit.name)).hide()
 			var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
-			ragdoll.id = id
 			get_parent().get_parent().add_child(ragdoll)
-			ragdoll.position = get_parent().get_parent().get_node(str(id)).position
+			ragdoll.position = get_parent().get_parent().get_node(str(name)).position
 			ragdoll.apply_impulse((get_parent().get_parent().get_node(str(ragdoll.name)).position - $rocketCollider/explosion/explosion.position).normalized() * 10)
 
 func _on_explosion_finished() -> void:
