@@ -53,8 +53,8 @@ func _body_entered(node):
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-
-	displayText.rpc(get_parent().get_parent().playerNames[name.to_int()]+" Wins")
+	print(get_parent().get_parent().playerNames)
+	displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
 	
 @rpc("any_peer","call_local","reliable")
 func displayText(text) -> void:
