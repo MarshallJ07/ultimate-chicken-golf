@@ -68,17 +68,17 @@ func check_player_collisions(peer_id) -> void:
 func create_ragdoll_everywhere(peer_id) -> void:
 	print('making ragdoll')
 	var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
-	ragdoll.id = id
+	ragdoll.id = peer_id
 	get_parent().get_parent().get_node("ragdolls").add_child(ragdoll)
-	get_parent().get_parent().get_node(str(id)).add_collision_exception_with(ragdoll)
-	ragdoll.add_collision_exception_with(get_parent().get_parent().get_node(str(id)))
+	get_parent().get_parent().get_node(str(peer_id)).add_collision_exception_with(ragdoll)
+	ragdoll.add_collision_exception_with(get_parent().get_parent().get_node(str(peer_id)))
 	
-	get_parent().get_parent().get_node(str(id)).hide()
-	get_parent().get_parent().get_node(str(id)).can_move = false
-	get_parent().get_parent().get_node(str(id)).can_use_action = false
+	get_parent().get_parent().get_node(str(peer_id)).hide()
+	get_parent().get_parent().get_node(str(peer_id)).can_move = false
+	get_parent().get_parent().get_node(str(peer_id)).can_use_action = false
 	if is_multiplayer_authority():
-		ragdoll.position = get_parent().get_parent().get_node(str(id)).position
-		ragdoll.apply_impulse((get_parent().get_parent().get_node(str(id)).get_node("Head").global_position - $rocketCollider.global_position).normalized() * 30)
+		ragdoll.position = get_parent().get_parent().get_node(str(peer_id)).position
+		ragdoll.apply_impulse((get_parent().get_parent().get_node(str(peer_id)).get_node("Head").global_position - $rocketCollider.global_position).normalized() * 30)
 		
 
 func _on_explosion_finished() -> void:
