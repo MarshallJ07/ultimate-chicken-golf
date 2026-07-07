@@ -29,6 +29,7 @@ func create_ragdoll_everywhere(hit) -> void:
 	get_parent().get_parent().get_node(str(hit)).get_node("Mesh").hide()
 	get_parent().get_parent().get_node(str(hit)).get_node("Collider").disabled = true
 	var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
+	ragdoll.id = id
 	get_parent().get_parent().add_child(ragdoll)
 	ragdoll.position = get_parent().get_parent().get_node(str(id)).position
 	

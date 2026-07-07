@@ -14,6 +14,10 @@ func _physics_process(delta: float) -> void:
 	
 @rpc("any_peer","call_local","reliable")
 func follow_ragdoll_everywhere() -> void:
+	if not is_multiplayer_authority():
+		return
+	if not id == multiplayer.get_unique_id():
+		return
 	get_parent().get_node(str(multiplayer.get_unique_id())).position = position
 
 func _on_timer_timeout() -> void:
@@ -23,8 +27,12 @@ func _on_timer_timeout() -> void:
 	
 @rpc("any_peer","call_local","reliable")
 func reset_character_everywhere() -> void:
+	if id == multiplayer.get_unique_id():
+			get_parent().get_node(str(multiplayer.get_unique_id())).externalVelocity = linear_velocity
+			get_parent().get_node(str(multiplayer.get_unique_id())).get_node("Collider").disabled = false
+			get_parent().get_node(str(multiplayer.get_unique_id())).get_node("Mesh").show()
+	if not is_multiplayer_authority():
+		return
 	get_parent().get_node(str(multiplayer.get_unique_id())).position = position
-	get_parent().get_node(str(multiplayer.get_unique_id())).externalVelocity = linear_velocity
-	get_parent().get_node(str(multiplayer.get_unique_id())).get_node("Collider").disabled = false
-	get_parent().get_node(str(multiplayer.get_unique_id())).get_node("Mesh").show()
+	
 	queue_free()
