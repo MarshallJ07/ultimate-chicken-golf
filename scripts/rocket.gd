@@ -21,18 +21,20 @@ func get_collisions() -> void:
 	for hit in $rocketCollider/explosion/explosion.get_overlapping_bodies():
 		if hit is CharacterBody3D:
 			create_ragdoll_everywhere.rpc(hit.name)
-			print(hit.name)
 			
 			
 @rpc("any_peer","call_local","reliable")
 func create_ragdoll_everywhere(hit) -> void:
-	get_parent().get_parent().get_node(str(hit)).get_node("Mesh").hide()
-	get_parent().get_parent().get_node(str(hit)).get_node("Collider").disabled = true
-	var ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
-	ragdoll.id = id
-	get_parent().get_parent().add_child(ragdoll)
+	var ragdoll
+	if id == multiplayer.get_unique_id():
+		get_parent().get_parent().get_node(str(hit)).get_node("Mesh").hide()
+		get_parent().get_parent().get_node(str(hit)).get_node("Collider").disabled = true
+		ragdoll = preload("res://scenes/rigidBodyPlayer.tscn").instantiate()
+		ragdoll.id = id
+		get_parent().get_parent().add_child(ragdoll)
+	if not is_multiplayer_authority():
+		return
 	ragdoll.position = get_parent().get_parent().get_node(str(id)).position
-	
 	ragdoll.apply_impulse((get_parent().get_parent().get_node(str(hit)).global_position - $rocketCollider/explosion/explosion.global_position).normalized() * 40)
 
 func _on_explosion_finished() -> void:
