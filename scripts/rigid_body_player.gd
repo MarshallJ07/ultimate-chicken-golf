@@ -10,7 +10,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-	follow_ragdoll_everywhere.rpc()
+	follow_ragdoll_everywhere.rpc_id(1)
 	
 @rpc("any_peer","call_local","reliable")
 func follow_ragdoll_everywhere() -> void:
@@ -19,7 +19,7 @@ func follow_ragdoll_everywhere() -> void:
 func _on_timer_timeout() -> void:
 	if not is_multiplayer_authority():
 		return
-	reset_character_everywhere.rpc()
+	reset_character_everywhere.rpc_id(1)
 	
 @rpc("any_peer","call_local","reliable")
 func reset_character_everywhere() -> void:

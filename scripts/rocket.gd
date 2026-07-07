@@ -20,7 +20,7 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 func get_collisions() -> void:
 	for hit in $rocketCollider/explosion/explosion.get_overlapping_bodies():
 		if hit is CharacterBody3D:
-			create_ragdoll_everywhere.rpc(hit.name)
+			create_ragdoll_everywhere.rpc_id(1,hit.name)
 			print(hit.name)
 			
 			
