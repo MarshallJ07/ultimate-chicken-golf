@@ -69,6 +69,13 @@ offset_bottom = 326.5
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1088957169]
+offset_left = 489.0
+offset_top = 6.0
+offset_right = 662.0
+offset_bottom = 29.0
+text = "V1.0.0"
+
 [node name="SpawnPoint" type="Node3D" parent="." unique_id=45943913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.141457, 17.037476)
 
