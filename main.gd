@@ -30,7 +30,7 @@ func _peer_connected(peer_id:int):
 
 @rpc("authority","call_local","reliable")
 func spawn_player(peer_id:int):
-
+	$CanvasLayer/waiting.hide()
 	if has_node(str(peer_id)):
 		return
 

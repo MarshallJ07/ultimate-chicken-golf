@@ -72,12 +72,12 @@ offset_bottom = 326.5
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="CanvasLayer" unique_id=1088957169]
+[node name="VERSION" type="Label" parent="CanvasLayer" unique_id=1088957169]
 offset_left = 489.0
 offset_top = 6.0
 offset_right = 662.0
 offset_bottom = 29.0
-text = "V1.0.0"
+text = "V1.0.1"
 
 [node name="start" type="Button" parent="CanvasLayer" unique_id=1443079216]
 anchors_preset = 8
