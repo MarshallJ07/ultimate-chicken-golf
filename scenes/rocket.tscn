@@ -40,6 +40,7 @@ albedo_color = Color(0.62979835, 0.102675684, 2.8878452e-07, 1)
 material = SubResource("StandardMaterial3D_3341w")
 
 [node name="rocket" type="Node3D" unique_id=940898803]
+visible = false
 script = ExtResource("1_3341w")
 
 [node name="rocketCollider" type="RigidBody3D" parent="." unique_id=675194238]
