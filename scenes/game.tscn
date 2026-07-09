@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cbeuxju27coag"]
 
 [ext_resource type="Script" uid="uid://3dbj678lk3bw" path="res://main.gd" id="1_yqjtg"]
+[ext_resource type="Script" uid="uid://dk44e7yqyfbco" path="res://scripts/start.gd" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://brqy5clh61o5v" path="res://terrain_v_0_0_1.tscn" id="2_yqjtg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8cj0n"]
@@ -54,6 +55,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=368920304]
+visible = false
 offset_left = 573.5
 offset_top = 309.0
 offset_right = 578.5
@@ -62,6 +64,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=1243845243]
+visible = false
 offset_left = 561.0
 offset_top = 321.5
 offset_right = 591.0
@@ -75,6 +78,22 @@ offset_top = 6.0
 offset_right = 662.0
 offset_bottom = 29.0
 text = "V1.0.0"
+
+[node name="start" type="Button" parent="CanvasLayer" unique_id=1443079216]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -21.0
+offset_right = 111.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+text = "START"
+script = ExtResource("2_lnu2h")
 
 [node name="SpawnPoint" type="Node3D" parent="." unique_id=45943913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.141457, 17.037476)
@@ -101,3 +120,6 @@ shape = SubResource("CylinderShape3D_lnu2h")
 [node name="ragdolls" type="Node3D" parent="." unique_id=1659427236]
 
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/Host" to="CanvasLayer/start" method="_on_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/start" to="CanvasLayer/start" method="_on_pressed"]

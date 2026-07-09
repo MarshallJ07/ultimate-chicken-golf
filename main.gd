@@ -90,5 +90,9 @@ func initialize_ball(ball:RigidBody3D):
 
 
 func _on_host_pressed():
-	Networking.host_lobby()
 	$CanvasLayer/Host.disabled = true
+
+
+func _on_start_pressed() -> void:
+	Networking.host_lobby()
+	
