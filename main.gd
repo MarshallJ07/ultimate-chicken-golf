@@ -21,7 +21,9 @@ func _on_host_created():
 func _peer_connected(peer_id:int):
 	if !multiplayer.is_server():
 		return
-
+	$CanvasLayer/start.queue_free()
+	$CanvasLayer/Host.queue_free()
+	$CanvasLayer/waiting.show()
 	ids.append(peer_id)
 
 
