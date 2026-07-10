@@ -40,7 +40,7 @@ func on_lobby_joined(lobby_id:int, permissions: int, locked: bool, response: int
 	else:
 		error.rpc_id(1,'error')
 
-@rpc("call_local","reliable")
+@rpc("any_peer","reliable")
 func error(msg) -> void:
 	print(msg)
 	
