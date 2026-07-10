@@ -92,6 +92,9 @@ func _on_host_pressed():
 	Networking.host_lobby()
 
 func _on_start_pressed() -> void:
+	print(ids)
+	if !multiplayer.is_server():
+		return
 	spawn_player.rpc(multiplayer.get_unique_id())
 	for id in ids:
 		spawn_player.rpc(id)
