@@ -25,12 +25,10 @@ func _peer_connected(peer_id:int):
 		$CanvasLayer/waiting.show()
 		return
 	
-	add_id(peer_id)
+	ids.append(peer_id)
 
-@rpc("authority","call_local","reliable")
-func add_id(peer_id) -> void:
-	if !multiplayer.is_server():
-		ids.append(peer_id)
+
+
 
 @rpc("authority","call_local","reliable")
 func spawn_player(peer_id:int):
@@ -96,7 +94,6 @@ func _on_host_pressed():
 	Networking.host_lobby()
 
 func _on_start_pressed() -> void:
-	print(ids)
 	if !multiplayer.is_server():
 		return
 	spawn_player.rpc(multiplayer.get_unique_id())
