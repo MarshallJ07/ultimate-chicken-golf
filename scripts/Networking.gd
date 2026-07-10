@@ -30,19 +30,15 @@ func on_lobby_created(connect:int, lobby_id:int) -> void:
 		
 func on_lobby_joined(lobby_id:int, permissions: int, locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
-		error.rpc_id(1,'joined')
 		if Steam.getLobbyOwner(lobby_id) == Steam.getSteamID():
 			return
 		peer = SteamMultiplayerPeer.new()
 		peer.server_relay = true
 		peer.create_client(Steam.getLobbyOwner(lobby_id))
 		multiplayer.multiplayer_peer = peer
-	else:
-		error.rpc_id(1,'error')
 
-@rpc("any_peer","reliable")
-func error(msg) -> void:
-	print(msg)
+
+
 	
 func on_join_requested(lobby_id: int, steam_id:int) -> void:
 	Steam.joinLobby(lobby_id)
