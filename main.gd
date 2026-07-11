@@ -6,7 +6,7 @@ const BALL = preload("uid://lcpwgxrnd7nb")
 var players: Array[CharacterBody3D]
 var ids: Array[int]
 var playerNames = {}
-
+var playerPfpsAndNames = []
 
 func _ready():
 	Networking.host_created.connect(_on_host_created)
@@ -41,8 +41,12 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	var texture = ImageTexture.create_from_image(image)
 	rect.texture = texture
 	label.text = playerName
-
+	if multiplayer.is_server():
+		playerPfpsAndNames.append([steam_id, playerName])
 func _peer_connected(peer_id:int):
+	if multiplayer.is_server():
+		for player in playerPfpsAndNames:
+			add_player_pfp_and_name(player[0],player[1])
 	if !multiplayer.is_server():
 		if $CanvasLayer.has_node("start"):
 			add_player_pfp_and_name.rpc(Steam.getSteamID(),Steam.getPersonaName())
@@ -50,7 +54,6 @@ func _peer_connected(peer_id:int):
 			$CanvasLayer/Host.queue_free()
 			$CanvasLayer/waiting.show()
 		return
-	print(players)
 	ids.append(peer_id)
 	
 
