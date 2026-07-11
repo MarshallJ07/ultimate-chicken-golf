@@ -59,7 +59,7 @@ extends CharacterBody3D
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
-var freeflying : bool = true
+var freeflying : bool = false
 var building : bool = true
 
 var externalVelocity := Vector3.ZERO
