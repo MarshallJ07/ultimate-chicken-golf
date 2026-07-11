@@ -44,11 +44,11 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	if multiplayer.is_server():
 		playerPfpsAndNames.append([steam_id, playerName])
 func _peer_connected(peer_id:int):
-	if multiplayer.is_server():
-		for player in playerPfpsAndNames:
-			add_player_pfp_and_name(player[0],player[1])
+		
 	if !multiplayer.is_server():
 		if $CanvasLayer.has_node("start"):
+			for player in playerPfpsAndNames:
+				add_player_pfp_and_name(player[0],player[1])
 			add_player_pfp_and_name.rpc(Steam.getSteamID(),Steam.getPersonaName())
 			$CanvasLayer/start.queue_free()
 			$CanvasLayer/Host.queue_free()
