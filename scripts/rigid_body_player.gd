@@ -5,6 +5,8 @@ var id: int
 
 	
 func _ready() -> void:
+	if not is_multiplayer_authority():
+		get_child(0).freeze = true
 	$Timer.start()
 
 func _physics_process(delta: float) -> void:

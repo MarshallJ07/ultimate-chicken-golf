@@ -14,9 +14,27 @@ func _ready():
 
 
 func _on_host_created():
-	# Host spawns itself
-	pass
+	add_player_pfp_and_name(Steam.getSteamID())
 
+
+func add_player_pfp_and_name(steam_id) -> void:
+	var avatar = Steam.getMediumFriendAvatar(steam_id)
+	if avatar > 0:
+		pass
+		
+	var data = Steam.getImageRGBA(avatar)
+		
+	var image = Image.create_from_data(
+	Steam.getImageSize(avatar)["width"],
+	Steam.getImageSize(avatar)["height"],
+	false,
+	Image.FORMAT_RGBA8,
+	 data["buffer"]
+	)
+
+	var texture = ImageTexture.create_from_image(image)
+
+	$CanvasLayer/pfps/TextureRect.texture = texture
 
 func _peer_connected(peer_id:int):
 	if !multiplayer.is_server():

@@ -114,6 +114,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
+[node name="pfps" type="VBoxContainer" parent="CanvasLayer" unique_id=2076880763]
+offset_left = 13.0
+offset_top = 106.0
+offset_right = 74.0
+offset_bottom = 625.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/pfps" unique_id=249136410]
+layout_mode = 2
+
+[node name="names" type="VBoxContainer" parent="CanvasLayer" unique_id=355789637]
+offset_left = 99.0
+offset_top = 106.0
+offset_right = 429.0
+offset_bottom = 625.0
+
 [node name="SpawnPoint" type="Node3D" parent="." unique_id=45943913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.141457, 17.037476)
 

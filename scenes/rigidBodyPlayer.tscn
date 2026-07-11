@@ -40,7 +40,6 @@ size = Vector3(0.555, 0.16, 0.27)
 
 [node name="ragdoll" type="RigidBody3D" unique_id=1955258925]
 physics_material_override = SubResource("PhysicsMaterial_27i8c")
-freeze = true
 continuous_cd = true
 angular_damp = 1.0
 script = ExtResource("1_pjep8")
