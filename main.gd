@@ -27,6 +27,7 @@ func _peer_connected(peer_id:int):
 		return
 	
 	ids.append(peer_id)
+	
 
 
 

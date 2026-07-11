@@ -6,7 +6,6 @@ var id: int
 	
 func _ready() -> void:
 	$Timer.start()
-	set_multiplayer_authority(1)
 
 func _physics_process(delta: float) -> void:
 	get_parent().get_parent().get_node(str(id)).global_position = global_position
