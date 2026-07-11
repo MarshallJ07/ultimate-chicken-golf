@@ -16,7 +16,7 @@ func _ready():
 func _on_host_created():
 	add_player_pfp_and_name(Steam.getSteamID())
 
-
+@rpc("authority","call_local","reliable")
 func add_player_pfp_and_name(steam_id) -> void:
 	var avatar = Steam.getMediumFriendAvatar(steam_id)
 	if avatar > 0:
@@ -31,14 +31,21 @@ func add_player_pfp_and_name(steam_id) -> void:
 	Image.FORMAT_RGBA8,
 	 data["buffer"]
 	)
-
+	$CanvasLayer/pfpsAndNames.add_child(HBoxContainer.new())
+	
+	var rect = TextureRect.new()
+	var label = Label.new()
+	
+	$CanvasLayer/pfpsAndNames.get_child(-1).add_child(rect)
+	$CanvasLayer/pfpsAndNames.get_child(-1).add_child(label)
 	var texture = ImageTexture.create_from_image(image)
-
-	$CanvasLayer/pfps/TextureRect.texture = texture
+	rect.texture = texture
+	label.text = Steam.getPersonaName()
 
 func _peer_connected(peer_id:int):
 	if !multiplayer.is_server():
 		if $CanvasLayer.has_node("start"):
+			add_player_pfp_and_name.rpc(Steam.getSteamID())
 			$CanvasLayer/start.queue_free()
 			$CanvasLayer/Host.queue_free()
 			$CanvasLayer/waiting.show()
