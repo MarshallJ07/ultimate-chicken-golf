@@ -56,7 +56,7 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	if multiplayer.is_server():
 		playerPfpsAndNames.append([steam_id, playerName])
 func _peer_connected(peer_id:int):
-	print('size  ',players)
+	print('size  ',playerPfpsAndNames)
 	if multiplayer.is_server():
 		for player in playerPfpsAndNames:
 			add_player_pfp_and_name.rpc_id(peer_id,player[0],player[1])
