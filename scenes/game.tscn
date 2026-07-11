@@ -21,6 +21,12 @@ glow_enabled = true
 height = 16.65
 radius = 2.5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lnu2h"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lbhrr"]
+material = SubResource("StandardMaterial3D_lnu2h")
+
 [node name="game" type="Node3D" unique_id=794742054]
 script = ExtResource("1_yqjtg")
 
@@ -28,7 +34,7 @@ script = ExtResource("1_yqjtg")
 environment = SubResource("Environment_yqjtg")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1408927187]
-transform = Transform3D(0.9905981, -0.052352954, 0.12639117, -0.014221623, 0.87946576, 0.4757495, -0.13606362, -0.473074, 0.8704525, 0, 39.90068, 0)
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 39.90068, 0)
 shadow_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1042891973]
@@ -69,6 +75,17 @@ offset_left = 561.0
 offset_top = 321.5
 offset_right = 591.0
 offset_bottom = 326.5
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="black" type="ColorRect" parent="CanvasLayer" unique_id=1547404692]
+modulate = Color(1, 1, 1, 0)
+z_index = 999
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
@@ -120,8 +137,64 @@ offset_top = 106.0
 offset_right = 74.0
 offset_bottom = 625.0
 
-[node name="SpawnPoint" type="Node3D" parent="." unique_id=45943913]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.141457, 17.037476)
+[node name="obstacleChoices" type="Control" parent="CanvasLayer" unique_id=1176216553]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="choice1" type="Button" parent="CanvasLayer/obstacleChoices" unique_id=552480118]
+layout_mode = 0
+offset_left = -256.0
+offset_top = -64.0
+offset_right = -128.0
+offset_bottom = 63.999954
+
+[node name="choice2" type="Button" parent="CanvasLayer/obstacleChoices" unique_id=1692735471]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+
+[node name="choice3" type="Button" parent="CanvasLayer/obstacleChoices" unique_id=1475002064]
+layout_mode = 0
+offset_left = 128.0
+offset_top = -64.0
+offset_right = 256.0
+offset_bottom = 64.0
+
+[node name="SpawnPoints" type="Node3D" parent="." unique_id=45943913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 110.823)
+
+[node name="spawnPoint1" type="Node3D" parent="SpawnPoints" unique_id=146100634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.25, 0)
+
+[node name="spawnPoint2" type="Node3D" parent="SpawnPoints" unique_id=699035649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.25, 0)
+
+[node name="spawnPoint3" type="Node3D" parent="SpawnPoints" unique_id=593817083]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.25, 0)
+
+[node name="spawnPoint4" type="Node3D" parent="SpawnPoints" unique_id=41160092]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.25, 0)
+
+[node name="spawnPoint5" type="Node3D" parent="SpawnPoints" unique_id=1368409596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0.25, 0)
+
+[node name="spawnPoint6" type="Node3D" parent="SpawnPoints" unique_id=774166411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.25, 0)
+
+[node name="spawnPoint7" type="Node3D" parent="SpawnPoints" unique_id=364108388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0.25, 0)
+
+[node name="spawnPoint8" type="Node3D" parent="SpawnPoints" unique_id=1985635630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 0.25, 0)
 
 [node name="balls" type="Node3D" parent="." unique_id=714516021]
 
@@ -146,7 +219,25 @@ shape = SubResource("CylinderShape3D_lnu2h")
 
 [node name="ghostPlayers" type="Node3D" parent="." unique_id=206178512]
 
+[node name="winParticles" type="CPUParticles3D" parent="." unique_id=1862504727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -124.96253)
+emitting = false
+amount = 256
+lifetime = 5.0
+one_shot = true
+explosiveness = 0.5
+mesh = SubResource("BoxMesh_lbhrr")
+direction = Vector3(0, 1, 0)
+spread = 12.5
+initial_velocity_min = 15.0
+initial_velocity_max = 30.0
+scale_amount_min = 0.2
+scale_amount_max = 0.2
+
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/Host" to="CanvasLayer/start" method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/start" to="CanvasLayer/start" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/obstacleChoices/choice1" to="." method="_on_choice_1_pressed"]
+[connection signal="pressed" from="CanvasLayer/obstacleChoices/choice2" to="." method="_on_choice_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/obstacleChoices/choice3" to="." method="_on_choice_3_pressed"]

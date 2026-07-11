@@ -27,7 +27,6 @@ func on_lobby_created(connect:int, lobby_id:int) -> void:
 		peer.create_host()
 		multiplayer.multiplayer_peer = peer
 		host_created.emit()
-		
 func on_lobby_joined(lobby_id:int, permissions: int, locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		if Steam.getLobbyOwner(lobby_id) == Steam.getSteamID():

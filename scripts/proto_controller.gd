@@ -59,8 +59,8 @@ extends CharacterBody3D
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
-var freeflying : bool = false
-var building : bool = true
+var freeflying : bool = true
+var building : bool = false
 
 var externalVelocity := Vector3.ZERO
 
@@ -82,21 +82,30 @@ var itemScenes := {
 @onready var camera = $Head/Camera3D
 
 #CREATE DEBUG SANDTRAP
-var ghostSandTrap = preload("res://scenes/sand_trap.tscn").instantiate()
+var ghostObstacles = {
+	"sandTrap":preload("res://scenes/sandTrap.tscn").instantiate()
+}
+var ghost
+var obstacle
 
 #SHOT VARIABLES
 var swingPower = 1
+
+
+func get_ghost_obstacle(obstacle) -> Node3D:
+	var ghost = load(obstacle).instantiate()
+	get_parent().get_node("ghost obstacles").add_child(ghost)
+	var material = ghost.get_child(0).get_active_material(0).duplicate()
+	ghost.get_child(0).set_surface_override_material(0, material)
+	material.albedo_color.a = 0.1
+	return ghost
 
 func _ready():
 	set_multiplayer_authority(name.to_int())
 	$Head/Camera3D.current = is_multiplayer_authority()
 
 	# everything else already in your _ready()
-	#CREATE DEBUG SANDTRAP
-	get_parent().get_node("ghost obstacles").add_child(ghostSandTrap)
-	var material = ghostSandTrap.get_child(0).get_active_material(0).duplicate()
-	ghostSandTrap.get_child(0).set_surface_override_material(0, material)
-	material.albedo_color.a = 0.1
+	
 	
 	var club = itemScenes[currentItem].instantiate()
 	get_node("item").add_child(club)
@@ -171,8 +180,9 @@ func _shootRPG_rpc(peer_id):
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Mouse capturing
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		capture_mouse()
+	if get_parent().gameState == "game":
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			capture_mouse()
 
 	if Input.is_key_pressed(KEY_ESCAPE):
 		release_mouse()
@@ -197,8 +207,10 @@ func _get_new_ball() -> void:
 			i.angular_velocity = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
+	
 	if not is_multiplayer_authority():
 		return
+	swingPower = 1
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
 		if building:
@@ -211,11 +223,17 @@ func _physics_process(delta: float) -> void:
 			var space = get_world_3d().direct_space_state
 
 			var query = PhysicsRayQueryParameters3D.create(from, to)
+			query.collision_mask = 1 << 2
 			var result = space.intersect_ray(query)
+			
+			
+			if obstacle != load("res://scenes/"+get_parent().currentObstacle+".tscn"):
+				obstacle = load("res://scenes/"+get_parent().currentObstacle+".tscn")
 			if result:
-				ghostSandTrap.position = result.position
+				get_parent().ghost.position = result.position
 			if Input.is_action_just_pressed(input_shoot):
-				place_obstacle.rpc_id(1,"res://scenes/sand_trap.tscn",result.position)
+				place_obstacle.rpc_id(1,"res://scenes/"+get_parent().currentObstacle+".tscn",result.position)
+				building = false
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
 		var motion := (head.global_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		motion *= freefly_speed * delta

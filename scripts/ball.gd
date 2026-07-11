@@ -24,7 +24,7 @@ func _physics_process(delta: float) -> void:
 			collidedWith["sandTrap"] = 1
 			modifierDamp += 10
 			modifierAngularDamp += 10
-			player.swingPower *= 0.75
+			player.swingPower *= 0.4
 	for body in get_node("Area3D").get_overlapping_bodies():
 		if body.get_collision_layer_value(collisionLayers["grass"]) and collidedWith["grass"] == 0:
 			collidedWith["grass"] = 1
@@ -53,11 +53,31 @@ func _body_entered(node):
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-	print(get_parent().get_parent().playerNames)
 	displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
+	
+	
+	
 	
 @rpc("any_peer","call_local","reliable")
 func displayText(text) -> void:
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").get_node("winText").text = text
+	get_parent().get_parent().get_node("winParticles").restart()
+	get_parent().get_parent().get_node("winParticles").finished.connect(_particles_finished)
+func _particles_finished() -> void:
+	var tween = create_tween()
+	get_parent().get_parent().get_node("CanvasLayer").get_node("black").modulate.a = 0
+	tween.tween_property(get_parent().get_parent().get_node("CanvasLayer").get_node("black"),"modulate:a",1,2)
+	tween.finished.connect(_reset)
 	
+func _reset() -> void:
+	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").hide()
 	
+	get_parent().get_parent().get_choices()
+	
+	get_parent().get_parent().get_node(str(name)).position = get_parent().get_parent().get_node("SpawnPoints").get_node("spawnPoint1").position
+	get_parent().get_parent().get_node(str(name)).release_mouse()
+	get_parent().get_parent().get_node(str(name)).building = false
+	get_parent().get_parent().get_node(str(name)).freeflying = true
+	var tween = create_tween()
+	get_parent().get_parent().get_node("CanvasLayer").get_node("black").modulate.a = 1
+	tween.tween_property(get_parent().get_parent().get_node("CanvasLayer").get_node("black"),"modulate:a",0,2)

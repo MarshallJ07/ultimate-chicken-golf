@@ -8,6 +8,19 @@ var ids: Array[int]
 var playerNames = {}
 var playerPfpsAndNames = []
 
+var gameState = "choosing"
+var playersDonePlacingObstacles = 0
+var spawnOrder: int
+
+var obstacles = {
+	"sandTrap":{"text":"sandTrap"},
+	"wall":{"text":"wall"},
+	"funnel":{"text":"funnel"},
+}
+var ghost: Node3D
+var currentObstacle = null
+
+
 func _ready():
 	Networking.host_created.connect(_on_host_created)
 	multiplayer.peer_connected.connect(_peer_connected)
@@ -15,7 +28,6 @@ func _ready():
 
 func _on_host_created():
 	add_player_pfp_and_name(Steam.getSteamID(),Steam.getPersonaName())
-
 @rpc("any_peer","call_local","reliable")
 func add_player_pfp_and_name(steam_id, playerName) -> void:
 	var avatar = Steam.getMediumFriendAvatar(steam_id)
@@ -44,6 +56,7 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	if multiplayer.is_server():
 		playerPfpsAndNames.append([steam_id, playerName])
 func _peer_connected(peer_id:int):
+	print('size  ',players)
 	if multiplayer.is_server():
 		for player in playerPfpsAndNames:
 			add_player_pfp_and_name.rpc_id(peer_id,player[0],player[1])
@@ -105,7 +118,7 @@ func sendNametags(playerNameList):
 
 func initialize_player(player:CharacterBody3D):
 
-	player.position = $SpawnPoint.position
+	player.position = $SpawnPoints.get_child(players.size()).position
 
 	for other in players:
 		player.add_collision_exception_with(other)
@@ -116,7 +129,7 @@ func initialize_player(player:CharacterBody3D):
 
 func initialize_ball(ball:RigidBody3D):
 
-	ball.position = $SpawnPoint.position
+	ball.position = $SpawnPoints.get_child(players.size()).position
 
 
 func _on_host_pressed():
@@ -129,5 +142,42 @@ func _on_start_pressed() -> void:
 	spawn_player.rpc(multiplayer.get_unique_id())
 	for id in ids:
 		spawn_player.rpc(id)
+		
+	get_choices()
 	
 	
+	
+func get_choices() -> void:
+	playersDonePlacingObstacles = 0
+	if !multiplayer.is_server():
+		return
+	$CanvasLayer/obstacleChoices.show()
+	for choice in $CanvasLayer/obstacleChoices.get_children():
+		print(obstacles.size())
+		var randomNumber = randi() % obstacles.size()
+		print(randomNumber)
+		var tempObstacle = obstacles.keys()[randomNumber]
+		choice.text = obstacles[tempObstacle]["text"]
+			
+
+
+func _on_choice_1_pressed() -> void:
+	currentObstacle = $CanvasLayer/obstacleChoices/choice1.text
+	choice_button_pressed()
+func _on_choice_2_pressed() -> void:
+	currentObstacle = $CanvasLayer/obstacleChoices/choice2.text
+	choice_button_pressed()
+func _on_choice_3_pressed() -> void:
+	currentObstacle = $CanvasLayer/obstacleChoices/choice3.text
+	choice_button_pressed()
+
+func choice_button_pressed() -> void:
+	gameState = "game"
+	ghost = get_node(str(multiplayer.get_unique_id())).get_ghost_obstacle("res://scenes/"+currentObstacle+".tscn")
+	$CanvasLayer/obstacleChoices.hide()
+	get_node(str(multiplayer.get_unique_id())).capture_mouse()
+	get_node(str(multiplayer.get_unique_id())).building = true
+	send_button_pressed_to_host.rpc_id(1)
+@rpc("any_peer","call_local","reliable")
+func send_button_pressed_to_host() -> void:
+	playersDonePlacingObstacles += 1
