@@ -18,6 +18,7 @@ func _on_host_created():
 
 @rpc("authority","call_local","reliable")
 func add_player_pfp_and_name(steam_id) -> void:
+	print('getting pfp and name')
 	var avatar = Steam.getMediumFriendAvatar(steam_id)
 	if avatar > 0:
 		pass
@@ -45,6 +46,7 @@ func add_player_pfp_and_name(steam_id) -> void:
 func _peer_connected(peer_id:int):
 	if !multiplayer.is_server():
 		if $CanvasLayer.has_node("start"):
+			print('sent rpc')
 			add_player_pfp_and_name.rpc(Steam.getSteamID())
 			$CanvasLayer/start.queue_free()
 			$CanvasLayer/Host.queue_free()
