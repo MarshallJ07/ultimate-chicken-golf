@@ -16,7 +16,7 @@ func _ready():
 func _on_host_created():
 	add_player_pfp_and_name(Steam.getSteamID())
 
-@rpc("authority","call_local","reliable")
+@rpc("any_peer","call_local","reliable")
 func add_player_pfp_and_name(steam_id) -> void:
 	print('getting pfp and name')
 	var avatar = Steam.getMediumFriendAvatar(steam_id)
