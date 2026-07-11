@@ -138,6 +138,8 @@ shape = SubResource("CylinderShape3D_lnu2h")
 
 [node name="ragdolls" type="Node3D" parent="." unique_id=1659427236]
 
+[node name="ghostPlayers" type="Node3D" parent="." unique_id=206178512]
+
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/Host" to="CanvasLayer/start" method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/start" to="." method="_on_start_pressed"]
