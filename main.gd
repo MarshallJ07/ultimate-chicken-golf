@@ -55,9 +55,15 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	label.text = playerName
 	if multiplayer.is_server():
 		playerPfpsAndNames.append([steam_id, playerName])
+		
+@rpc("any_peer","call_local","reliable")
+func _get_spawn_order(num:int) -> void:
+	print(num)
+	spawnOrder = num
+		
 func _peer_connected(peer_id:int):
-	print('size  ',playerPfpsAndNames)
 	if multiplayer.is_server():
+		_get_spawn_order.rpc_id(peer_id,playerPfpsAndNames.size())
 		for player in playerPfpsAndNames:
 			add_player_pfp_and_name.rpc_id(peer_id,player[0],player[1])
 	if !multiplayer.is_server():
