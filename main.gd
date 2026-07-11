@@ -156,9 +156,8 @@ func _on_start_pressed() -> void:
 	
 @rpc("any_peer","call_local","reliable")
 func get_choices() -> void:
-	playersDonePlacingObstacles = 0
-	if !multiplayer.is_server():
-		return
+	if multiplayer.is_server():
+		playersDonePlacingObstacles = 0
 	$CanvasLayer/obstacleChoices.show()
 	for choice in $CanvasLayer/obstacleChoices.get_children():
 		print(obstacles.size())
