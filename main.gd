@@ -151,10 +151,10 @@ func _on_start_pressed() -> void:
 	for id in ids:
 		spawn_player.rpc(id)
 		
-	get_choices()
+	get_choices.rpc()
 	
 	
-	
+@rpc("any_peer","call_local","reliable")
 func get_choices() -> void:
 	playersDonePlacingObstacles = 0
 	if !multiplayer.is_server():
@@ -185,6 +185,7 @@ func choice_button_pressed() -> void:
 	$CanvasLayer/obstacleChoices.hide()
 	get_node(str(multiplayer.get_unique_id())).capture_mouse()
 	get_node(str(multiplayer.get_unique_id())).building = true
+	
 @rpc("any_peer","call_local","reliable")
 func send_object_placed_to_host() -> void:
 	playersDonePlacingObstacles += 1
