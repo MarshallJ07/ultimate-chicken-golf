@@ -111,14 +111,16 @@ func _ready():
 		
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_ball_everywhere(power: int,ball):
-	var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
-	var up = camera.global_transform.basis.y
-	var final_dir = (dir + up * 0.1).normalized()
+	
 	for i in get_parent().get_node("balls").get_children():
 		if i.name.to_int() == int(ball):
 			get_node("item").get_node("golfClub").get_node("swing").play("swing")
 			await get_tree().create_timer(0.65).timeout
 			if i in get_node("ballZone").get_overlapping_bodies():
+				var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
+				var up = camera.global_transform.basis.y
+				var final_dir = (dir + up * 0.1).normalized()
+				print(swingPower)
 				i.apply_impulse(final_dir * power * swingPower)
 
 func _shoot(power: int,node):
