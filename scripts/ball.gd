@@ -74,7 +74,7 @@ func _reset() -> void:
 	
 	get_parent().get_parent().get_choices()
 	
-	get_parent().get_parent().get_node(str(name)).position = get_parent().get_parent().get_node("SpawnPoints").get_node("spawnPoint1").position
+	get_parent().get_parent().get_node(str(name)).position = get_parent().get_parent().get_node("SpawnPoints").get_child(get_parent().get_parent().spawnOrder).position
 	get_parent().get_parent().get_node(str(name)).release_mouse()
 	get_parent().get_parent().get_node(str(name)).building = false
 	get_parent().get_parent().get_node(str(name)).freeflying = true

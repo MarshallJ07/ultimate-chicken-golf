@@ -27,6 +27,7 @@ func _ready():
 
 
 func _on_host_created():
+	spawnOrder = 0
 	add_player_pfp_and_name(Steam.getSteamID(),Steam.getPersonaName())
 @rpc("any_peer","call_local","reliable")
 func add_player_pfp_and_name(steam_id, playerName) -> void:
@@ -124,7 +125,7 @@ func sendNametags(playerNameList):
 
 func initialize_player(player:CharacterBody3D):
 
-	player.position = $SpawnPoints.get_child(players.size()).position
+	player.position = $SpawnPoints.get_child(spawnOrder).position
 
 	for other in players:
 		player.add_collision_exception_with(other)
@@ -134,9 +135,10 @@ func initialize_player(player:CharacterBody3D):
 
 
 func initialize_ball(ball:RigidBody3D):
-
-	ball.position = $SpawnPoints.get_child(players.size()).position
-
+	ball.linear_velocity = Vector3.ZERO
+	ball.angular_velocity = Vector3.ZERO
+	ball.position = $SpawnPoints.get_child(spawnOrder).position
+	
 
 func _on_host_pressed():
 	$CanvasLayer/Host.disabled = true
@@ -183,7 +185,25 @@ func choice_button_pressed() -> void:
 	$CanvasLayer/obstacleChoices.hide()
 	get_node(str(multiplayer.get_unique_id())).capture_mouse()
 	get_node(str(multiplayer.get_unique_id())).building = true
-	send_button_pressed_to_host.rpc_id(1)
 @rpc("any_peer","call_local","reliable")
-func send_button_pressed_to_host() -> void:
+func send_object_placed_to_host() -> void:
 	playersDonePlacingObstacles += 1
+	if playersDonePlacingObstacles == players.size():
+		_transition.rpc()
+		
+@rpc("any_peer","call_local","reliable")
+func _transition() -> void:
+	$CanvasLayer/black.modulate.a = 0
+	var tween = create_tween()
+	tween.tween_property($CanvasLayer/black,"modulate:a",1,2)
+	tween.finished.connect(_start)
+
+func _start():
+	get_node(str(multiplayer.get_unique_id())).building = false
+	get_node(str(multiplayer.get_unique_id())).freeflying = false
+	
+	
+	$CanvasLayer/black.modulate.a = 1
+	var tween = create_tween()
+	tween.tween_property($CanvasLayer/black,"modulate:a",0,2)
+	initialize_ball($balls.get_node(str(multiplayer.get_unique_id())))
