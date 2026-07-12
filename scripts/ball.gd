@@ -60,6 +60,8 @@ func winnerText() -> void:
 	
 @rpc("any_peer","call_local","reliable")
 func displayText(text) -> void:
+	if not is_multiplayer_authority():
+		return
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").get_node("winText").text = text
 	get_parent().get_parent().get_node("winParticles").restart()
 	get_parent().get_parent().get_node("winParticles").finished.connect(_particles_finished)
