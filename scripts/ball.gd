@@ -56,7 +56,8 @@ func winnerText() -> void:
 	print(get_parent().get_parent().playerNames)
 	print(name)
 	print('name  ',get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
-	get_parent().get_node('1').displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
+	multiplayer.get_unique_id()
+	get_parent().get_node(str(multiplayer.get_unique_id())).displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
 	
 	
 	
