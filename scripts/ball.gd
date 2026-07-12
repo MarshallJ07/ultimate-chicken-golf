@@ -41,8 +41,6 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	player = get_parent().get_parent().get_node(str(name.to_int()))
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
-	print('mult   ',multiplayer.get_unique_id())
-	print('name    ',name)
 	
 func _body_entered(node):
 	if node != self:
@@ -76,7 +74,8 @@ func _reset() -> void:
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").hide()
 	
 	get_parent().get_parent().get_choices()
-	
+	print('player  ', get_parent().get_parent().get_node(str(name)).position)
+	print('spawn  ',get_parent().get_parent().get_node("SpawnPoints").get_child(get_parent().get_parent().spawnOrder).position)
 	get_parent().get_parent().get_node(str(name)).position = get_parent().get_parent().get_node("SpawnPoints").get_child(get_parent().get_parent().spawnOrder).position
 	get_parent().get_parent().get_node(str(name)).release_mouse()
 	get_parent().get_parent().get_node(str(name)).building = false
