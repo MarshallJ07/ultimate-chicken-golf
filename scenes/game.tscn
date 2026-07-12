@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://3dbj678lk3bw" path="res://main.gd" id="1_yqjtg"]
 [ext_resource type="Script" uid="uid://dk44e7yqyfbco" path="res://scripts/start.gd" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://brqy5clh61o5v" path="res://terrain_v_0_0_1.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://dwviyrheg8e2t" path="res://scenes/scoreboard.tscn" id="3_lbhrr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8cj0n"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -62,19 +63,33 @@ autowrap_mode = 3
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=368920304]
 visible = false
-offset_left = 573.5
-offset_top = 309.0
-offset_right = 578.5
-offset_bottom = 339.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -15.0
+offset_right = 2.5
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=1243845243]
 visible = false
-offset_left = 561.0
-offset_top = 321.5
-offset_right = 591.0
-offset_bottom = 326.5
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -2.5
+offset_right = 15.0
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
@@ -90,10 +105,13 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="VERSION" type="Label" parent="CanvasLayer" unique_id=1088957169]
-offset_left = 489.0
-offset_top = 6.0
-offset_right = 662.0
-offset_bottom = 29.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.5
+offset_right = 23.5
+offset_bottom = 23.0
+grow_horizontal = 2
 text = "V1.0.4"
 
 [node name="start" type="Button" parent="CanvasLayer" unique_id=1443079216]
@@ -168,6 +186,15 @@ offset_left = 128.0
 offset_top = -64.0
 offset_right = 256.0
 offset_bottom = 64.0
+
+[node name="strokes" type="VBoxContainer" parent="CanvasLayer" unique_id=815161524]
+offset_left = 15.0
+offset_top = 17.0
+offset_right = 425.0
+offset_bottom = 190.0
+
+[node name="Scoreboard" parent="CanvasLayer" unique_id=202839251 instance=ExtResource("3_lbhrr")]
+visible = false
 
 [node name="SpawnPoints" type="Node3D" parent="." unique_id=45943913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 110.823)

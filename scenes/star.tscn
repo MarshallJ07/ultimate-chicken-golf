@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://5oih7i2dvo8i"]
+
+[ext_resource type="Texture2D" uid="uid://k65hauokob5m" path="res://Assets/Art/plus.png" id="1_mcqwg"]
+
+[node name="star" type="TextureRect" unique_id=384983595]
+texture = ExtResource("1_mcqwg")

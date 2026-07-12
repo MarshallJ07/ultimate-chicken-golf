@@ -90,7 +90,7 @@ var obstacle
 
 #SHOT VARIABLES
 var swingPower = 1
-
+var strokes := 0
 
 func get_ghost_obstacle(obstacle) -> Node3D:
 	var ghost = load(obstacle).instantiate()
@@ -129,8 +129,10 @@ func _spawn_ball_everywhere(power: int,ball):
 				var dir = -camera.global_transform.basis.z + Vector3.UP * 0.8
 				var up = camera.global_transform.basis.y
 				var final_dir = (dir + up * 0.1).normalized()
-				print(swingPower)
 				i.apply_impulse(final_dir * power * swingPower)
+				if is_multiplayer_authority():
+					strokes += 1
+					get_parent().get_node("CanvasLayer").get_node("strokes").get_node(str(name)).text = get_node("nametag").text + ": " + str(strokes)
 
 func _shoot(power: int,node):
 	if multiplayer.is_server():

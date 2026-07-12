@@ -71,15 +71,17 @@ func _particles_finished() -> void:
 	tween.finished.connect(_reset)
 	
 func _reset() -> void:
+	if !get_multiplayer_authority():
+		return
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").hide()
 	
-	get_parent().get_parent().get_choices()
-	print('player  ', get_parent().get_parent().get_node(str(name)).position)
-	print('spawn  ',get_parent().get_parent().get_node("SpawnPoints").get_child(get_parent().get_parent().spawnOrder).position)
 	get_parent().get_parent().get_node(str(name)).position = get_parent().get_parent().get_node("SpawnPoints").get_child(get_parent().get_parent().spawnOrder).position
 	get_parent().get_parent().get_node(str(name)).release_mouse()
 	get_parent().get_parent().get_node(str(name)).building = false
 	get_parent().get_parent().get_node(str(name)).freeflying = true
+	get_parent().get_parent().get_node(str(name)).can_move = false
+	
 	var tween = create_tween()
 	get_parent().get_parent().get_node("CanvasLayer").get_node("black").modulate.a = 1
 	tween.tween_property(get_parent().get_parent().get_node("CanvasLayer").get_node("black"),"modulate:a",0,2)
+	get_parent().get_parent()._scoreboard.rpc()

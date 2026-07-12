@@ -12,6 +12,8 @@ var gameState = "choosing"
 var playersDonePlacingObstacles = 0
 var spawnOrder: int
 
+var points := 0
+
 var obstacles = {
 	"sandTrap":{"text":"sandTrap"},
 	"wall":{"text":"wall"},
@@ -51,9 +53,28 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	
 	$CanvasLayer/pfpsAndNames.get_child(-1).add_child(rect)
 	$CanvasLayer/pfpsAndNames.get_child(-1).add_child(label)
+	
+	$CanvasLayer/Scoreboard.get_node("players").add_child(HBoxContainer.new())
+
+	var rect1 = TextureRect.new()
+	var label1 = Label.new()
+	
+	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).add_child(rect1)
+	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).add_child(label1)
+
+	$CanvasLayer/Scoreboard.get_node("points").add_child(HBoxContainer.new())
+	
+	$CanvasLayer/Scoreboard.get_node("points").get_child(-1).add_child(preload("res://scenes/star.tscn").instantiate())
+	$CanvasLayer/Scoreboard.get_node("points").get_child(-1).add_child(preload("res://scenes/star.tscn").instantiate())
+	$CanvasLayer/Scoreboard.get_node("points").get_child(-1).add_child(preload("res://scenes/star.tscn").instantiate())
+	
 	var texture = ImageTexture.create_from_image(image)
 	rect.texture = texture
 	label.text = playerName
+	rect1.texture = texture
+	label1.text = playerName
+	
+	
 	if multiplayer.is_server():
 		playerPfpsAndNames.append([steam_id, playerName])
 		
@@ -82,6 +103,9 @@ func _peer_connected(peer_id:int):
 @rpc("authority","call_local","reliable")
 func spawn_player(peer_id:int):
 	$CanvasLayer/waiting.hide()
+	var strokeName = Label.new()
+	strokeName.name = str(peer_id)
+	get_node("CanvasLayer").get_node("strokes").add_child(strokeName)
 	if has_node(str(peer_id)):
 		return
 
@@ -151,6 +175,12 @@ func _on_start_pressed() -> void:
 		spawn_player.rpc(id)
 		
 	get_choices.rpc()
+	hideButtons.rpc()
+	
+@rpc("any_peer","call_local","reliable")
+func hideButtons() -> void:
+	$CanvasLayer/Host.hide()
+	$CanvasLayer/pfpsAndNames.hide()
 	
 	
 @rpc("any_peer","call_local","reliable")
@@ -189,6 +219,11 @@ func send_object_placed_to_host() -> void:
 		_transition.rpc()
 		
 @rpc("any_peer","call_local","reliable")
+func _scoreboard() -> void:
+	$CanvasLayer/Scoreboard.show()
+
+
+@rpc("any_peer","call_local","reliable")
 func _transition() -> void:
 	$CanvasLayer/black.modulate.a = 0
 	var tween = create_tween()
@@ -198,6 +233,8 @@ func _transition() -> void:
 func _start():
 	get_node(str(multiplayer.get_unique_id())).building = false
 	get_node(str(multiplayer.get_unique_id())).freeflying = false
+	get_node(str(multiplayer.get_unique_id())).can_move = true
+	get_node(str(multiplayer.get_unique_id())).position = $SpawnPoints.get_child(spawnOrder).position
 	
 	
 	$CanvasLayer/black.modulate.a = 1
