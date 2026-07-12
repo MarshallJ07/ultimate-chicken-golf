@@ -41,8 +41,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	player = get_parent().get_parent().get_node(str(name.to_int()))
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
-	print(multiplayer.get_unique_id())
-	print(name)
+	print('mult   ',multiplayer.get_unique_id())
+	print('name    ',name)
 	
 func _body_entered(node):
 	if node != self:
