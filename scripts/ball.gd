@@ -55,11 +55,11 @@ func _body_entered(node):
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-	send_to_auths.rpc()
+	send_to_auths.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
 	
 @rpc("any_peer","call_local","reliable")
-func send_to_auths() -> void:
-	get_parent().get_node(str(multiplayer.get_unique_id())).displayText(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
+func send_to_auths(text: String) -> void:
+	get_parent().get_node(str(multiplayer.get_unique_id())).displayText(text)
 	
 
 func displayText(text) -> void:
