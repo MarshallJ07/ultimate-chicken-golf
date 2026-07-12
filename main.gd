@@ -179,7 +179,8 @@ func _on_start_pressed() -> void:
 	
 @rpc("any_peer","call_local","reliable")
 func hideButtons() -> void:
-	$CanvasLayer/Host.hide()
+	if multiplayer.is_server():
+		$CanvasLayer/Host.hide()
 	$CanvasLayer/pfpsAndNames.hide()
 	
 	
