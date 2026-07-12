@@ -4,11 +4,9 @@
 
 [node name="Scoreboard" type="Control" unique_id=202839251]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ucmtr")
@@ -16,12 +14,10 @@ script = ExtResource("1_ucmtr")
 [node name="ColorRect" type="ColorRect" parent="." unique_id=213121887]
 custom_minimum_size = Vector2(12.13, 22.32)
 layout_mode = 1
-anchors_preset = 9
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -583.0
-offset_top = -337.0
-offset_right = 577.0
-offset_bottom = 328.0
+grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.32172796, 0.32172796, 0.32172796, 1)
 
@@ -32,40 +28,23 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -465.5
-offset_top = -208.0
-offset_right = -240.0
-offset_bottom = 233.5
+offset_left = -468.75
+offset_top = -220.75
+offset_right = 468.75
+offset_bottom = 220.75
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="points" type="VBoxContainer" parent="." unique_id=1532141696]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -215.0
-offset_top = -189.0
-offset_right = 443.0
-offset_bottom = 209.75
-grow_horizontal = 2
-grow_vertical = 2
+alignment = 1
 
 [node name="Label" type="Label" parent="." unique_id=184089128]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
 offset_left = -182.5
-offset_top = -286.0
 offset_right = 182.5
-offset_bottom = -107.0
+offset_bottom = 179.0
 grow_horizontal = 2
-grow_vertical = 0
 theme_override_font_sizes/font_size = 64
 text = "Scoreboard
 "
@@ -81,9 +60,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -95.5
-offset_top = 246.0
+offset_top = -94.0
 offset_right = 95.5
-offset_bottom = 299.0
+offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32

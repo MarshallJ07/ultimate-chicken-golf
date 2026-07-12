@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://dtjbbkjmtk0o2"]
+
+[ext_resource type="Texture2D" uid="uid://cqioxafl8jtlc" path="res://Assets/Art/steamIconTemp.png" id="1_mm1i0"]
+[ext_resource type="Texture2D" uid="uid://crtmx42odna7k" path="res://Assets/Art/pointTemp.png" id="2_e4y0h"]
+
+[node name="scoreboardPlayer" type="Control" unique_id=85074185]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1589426434]
+custom_minimum_size = Vector2(400, 64)
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -468.0
+offset_top = -32.0
+offset_right = -68.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="icon" type="TextureRect" parent="HBoxContainer" unique_id=958030017]
+layout_mode = 2
+texture = ExtResource("1_mm1i0")
+expand_mode = 3
+stretch_mode = 3
+
+[node name="text" type="Label" parent="HBoxContainer" unique_id=1272232652]
+layout_mode = 2
+text = "examplePlayerName"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=715002157]
+custom_minimum_size = Vector2(600, 32)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -67.0
+offset_top = -16.0
+offset_right = 548.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="0" type="TextureRect" parent="HBoxContainer2" unique_id=111339243]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="1" type="TextureRect" parent="HBoxContainer2" unique_id=1601408239]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="2" type="TextureRect" parent="HBoxContainer2" unique_id=327748987]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="3" type="TextureRect" parent="HBoxContainer2" unique_id=894683737]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="4" type="TextureRect" parent="HBoxContainer2" unique_id=1439663733]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="5" type="TextureRect" parent="HBoxContainer2" unique_id=1320289761]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="6" type="TextureRect" parent="HBoxContainer2" unique_id=1218380008]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="7" type="TextureRect" parent="HBoxContainer2" unique_id=254825650]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="8" type="TextureRect" parent="HBoxContainer2" unique_id=875641120]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="9" type="TextureRect" parent="HBoxContainer2" unique_id=1912917886]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="10" type="TextureRect" parent="HBoxContainer2" unique_id=1028405023]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="11" type="TextureRect" parent="HBoxContainer2" unique_id=2096691307]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="12" type="TextureRect" parent="HBoxContainer2" unique_id=672822421]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="13" type="TextureRect" parent="HBoxContainer2" unique_id=1423068078]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="14" type="TextureRect" parent="HBoxContainer2" unique_id=1196907441]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")
+
+[node name="15" type="TextureRect" parent="HBoxContainer2" unique_id=944166590]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_e4y0h")

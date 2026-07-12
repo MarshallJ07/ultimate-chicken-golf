@@ -54,26 +54,22 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	$CanvasLayer/pfpsAndNames.get_child(-1).add_child(rect)
 	$CanvasLayer/pfpsAndNames.get_child(-1).add_child(label)
 	
-	$CanvasLayer/Scoreboard.get_node("players").add_child(HBoxContainer.new())
+	$CanvasLayer/Scoreboard.get_node("players").add_child(preload("res://scenes/scoreboard_player.tscn").instantiate())
 
-	var rect1 = TextureRect.new()
-	var label1 = Label.new()
 	
-	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).add_child(rect1)
-	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).add_child(label1)
 
-	$CanvasLayer/Scoreboard.get_node("points").add_child(HBoxContainer.new())
+
 	
-	$CanvasLayer/Scoreboard.get_node("points").get_child(-1).add_child(preload("res://scenes/star.tscn").instantiate())
-	$CanvasLayer/Scoreboard.get_node("points").get_child(-1).add_child(preload("res://scenes/star.tscn").instantiate())
-	$CanvasLayer/Scoreboard.get_node("points").get_child(-1).add_child(preload("res://scenes/star.tscn").instantiate())
 	
 	var texture = ImageTexture.create_from_image(image)
 	rect.texture = texture
 	label.text = playerName
-	rect1.texture = texture
-	label1.text = playerName
 	
+	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(0).get_node("text").text = playerName
+	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(0).get_node("icon").texture = texture
+	
+	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(1).get_node("1").show()
+		
 	
 	if multiplayer.is_server():
 		playerPfpsAndNames.append([steam_id, playerName])
