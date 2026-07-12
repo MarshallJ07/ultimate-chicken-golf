@@ -41,6 +41,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	player = get_parent().get_parent().get_node(str(name.to_int()))
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
+	print(multiplayer.get_unique_id())
+	print(name)
 	
 func _body_entered(node):
 	if node != self:
@@ -56,7 +58,6 @@ func winnerText() -> void:
 	print(get_parent().get_parent().playerNames)
 	print(name)
 	print('name  ',get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
-	multiplayer.get_unique_id()
 	get_parent().get_node(str(multiplayer.get_unique_id())).displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
 	
 	
