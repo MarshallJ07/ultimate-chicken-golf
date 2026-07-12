@@ -53,6 +53,7 @@ func _body_entered(node):
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
+	print('name  ',get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
 	displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
 	
 	
