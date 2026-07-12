@@ -55,19 +55,14 @@ func _body_entered(node):
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-	print(get_parent().get_parent().playerNames)
-	print(name)
-	print('name  ',get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
-	get_parent().get_node(str(multiplayer.get_unique_id())).displayText.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
-	
-	
-	
+	send_to_auths.rpc()
 	
 @rpc("any_peer","call_local","reliable")
+func send_to_auths() -> void:
+	get_parent().get_node(str(multiplayer.get_unique_id())).displayText(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
+	
+
 func displayText(text) -> void:
-	if not is_multiplayer_authority():
-		return
-	print('auth   ',name)
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").get_node("winText").text = text
 	get_parent().get_parent().get_node("winParticles").restart()
 	get_parent().get_parent().get_node("winParticles").finished.connect(_particles_finished)

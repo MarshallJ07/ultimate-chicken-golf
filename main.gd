@@ -59,7 +59,6 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 		
 @rpc("any_peer","call_local","reliable")
 func _get_spawn_order(num:int) -> void:
-	print(num)
 	spawnOrder = num
 		
 func _peer_connected(peer_id:int):
@@ -160,9 +159,7 @@ func get_choices() -> void:
 		playersDonePlacingObstacles = 0
 	$CanvasLayer/obstacleChoices.show()
 	for choice in $CanvasLayer/obstacleChoices.get_children():
-		print(obstacles.size())
 		var randomNumber = randi() % obstacles.size()
-		print(randomNumber)
 		var tempObstacle = obstacles.keys()[randomNumber]
 		choice.text = obstacles[tempObstacle]["text"]
 			
