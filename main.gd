@@ -234,6 +234,10 @@ func _transition() -> void:
 func _start():
 	
 	get_node(str(multiplayer.get_unique_id())).can_move = true
+	show_crossair.rpc()
+	
+@rpc("any_peer","reliable")
+func show_crossair() -> void:
 	if !multiplayer.is_server():
 		$CanvasLayer/ColorRect.show()
 		$CanvasLayer/ColorRect2.show()
