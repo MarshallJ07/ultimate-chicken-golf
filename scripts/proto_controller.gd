@@ -164,8 +164,6 @@ func _spawn_rocket_everywhere(peer_id):
 	rocket.set_multiplayer_authority(1)
 	rocket.id = peer_id
 	get_parent().get_node("bullets").add_child(rocket)
-	if peer_id != 1:
-		print('made rocket')
 	if multiplayer.get_unique_id() == 1:
 		rocket.global_position = global_position
 		var dir = -camera.global_transform.basis.z.normalized()
@@ -209,7 +207,6 @@ func _get_new_ball() -> void:
 			i.angular_velocity = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
-	print(can_move)
 	if not is_multiplayer_authority():
 		return
 	swingPower = 1
