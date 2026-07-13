@@ -234,7 +234,7 @@ func _transition() -> void:
 func _start():
 	
 	get_node(str(multiplayer.get_unique_id())).can_move = true
-	
+	get_node(str(multiplayer.get_unique_id())).can_use_action = true
 @rpc("any_peer","reliable")
 func show_crossair() -> void:
 	print(multiplayer.get_unique_id())
@@ -259,6 +259,7 @@ func _countdown() -> void:
 		get_node(str(multiplayer.get_unique_id())).can_move = false
 		get_node(str(multiplayer.get_unique_id())).building = false
 		get_node(str(multiplayer.get_unique_id())).freeflying = false
+		get_node(str(multiplayer.get_unique_id())).can_use_action = false
 		initialize_ball($balls.get_node(str(multiplayer.get_unique_id())))
 		get_node(str(multiplayer.get_unique_id())).global_position = $SpawnPoints.get_child(spawnOrder).global_position
 		
