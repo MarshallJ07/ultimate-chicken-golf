@@ -70,7 +70,6 @@ func add_player_pfp_and_name(steam_id, playerName, peer_id) -> void:
 	
 	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(0).get_node("text").text = playerName
 	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(0).get_node("icon").texture = texture
-	print(peer_id)
 	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).name = str(peer_id)
 	
 		
@@ -89,6 +88,7 @@ func _peer_connected(peer_id:int):
 
 	if !multiplayer.is_server():
 		if $CanvasLayer.has_node("start"):
+			add_player_pfp_and_name(Steam.getSteamID(),Steam.getPersonaName(),multiplayer.get_unique_id())
 			$CanvasLayer/start.queue_free()
 			$CanvasLayer/Host.queue_free()
 			$CanvasLayer/waiting.show()
