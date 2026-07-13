@@ -85,17 +85,14 @@ func _get_spawn_order(num:int) -> void:
 func _peer_connected(peer_id:int):
 	if multiplayer.is_server():
 		_get_spawn_order.rpc_id(peer_id,playerPfpsAndNames.size())
-		for player in playerPfpsAndNames:
-			print('add  ',peer_id)
-			add_player_pfp_and_name.rpc_id(peer_id,player[0],player[1],peer_id)
+
 	if !multiplayer.is_server():
 		if $CanvasLayer.has_node("start"):
-			print("PEER ID ",peer_id)
-			add_player_pfp_and_name.rpc(Steam.getSteamID(),Steam.getPersonaName(),peer_id)
 			$CanvasLayer/start.queue_free()
 			$CanvasLayer/Host.queue_free()
 			$CanvasLayer/waiting.show()
 		return
+	add_player_pfp_and_name.rpc_id(peer_id,Steam.getSteamID(),Steam.getPersonaName(),multiplayer.get_unique_id())
 	ids.append(peer_id)
 	
 
