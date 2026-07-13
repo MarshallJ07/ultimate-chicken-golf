@@ -54,16 +54,16 @@ func _body_entered(node):
 func winnerText() -> void:
 	if !multiplayer.is_server():
 		return
-	send_to_auths.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins")
+	send_to_auths.rpc(get_parent().get_parent().playerNames[str(name.to_int())]+" Wins",str(name))
 	
 @rpc("any_peer","call_local","reliable")
-func send_to_auths(text: String) -> void:
-	get_parent().get_node(str(multiplayer.get_unique_id())).displayText(text)
+func send_to_auths(text: String, playerName: String) -> void:
+	get_parent().get_node(str(multiplayer.get_unique_id())).displayText(text,playerName)
 	
 
-func displayText(text) -> void:
+func displayText(text:String,playerName:String) -> void:
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
-	for i in get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_node(str(name)).get_node("HBoxContainer2").get_children():
+	for i in get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_node(playerName).get_node("HBoxContainer2").get_children():
 		if !i.visible:
 			i.show()
 			break
