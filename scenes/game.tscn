@@ -113,7 +113,7 @@ offset_left = -23.5
 offset_right = 23.5
 offset_bottom = 23.0
 grow_horizontal = 2
-text = "V1.0.4"
+text = "V1.0.5"
 
 [node name="start" type="Button" parent="CanvasLayer" unique_id=1443079216]
 anchors_preset = 8
