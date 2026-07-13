@@ -176,7 +176,7 @@ func _on_start_pressed() -> void:
 		
 	get_choices.rpc()
 	hideButtons.rpc()
-	
+	show_crossair.rpc()
 @rpc("any_peer","call_local","reliable")
 func hideButtons() -> void:
 	if multiplayer.is_server():
@@ -234,8 +234,7 @@ func _transition() -> void:
 func _start():
 	
 	get_node(str(multiplayer.get_unique_id())).can_move = true
-	show_crossair.rpc()
-	print(multiplayer.get_unique_id())
+	
 @rpc("any_peer","reliable")
 func show_crossair() -> void:
 	print(multiplayer.get_unique_id())
