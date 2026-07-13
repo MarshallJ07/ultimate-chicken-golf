@@ -43,13 +43,9 @@ func _ready() -> void:
 	get_parent().get_parent().get_node("Hole").body_entered.connect(_body_entered)
 	
 func _body_entered(node):
-	if node != self:
+	if node != self or !multiplayer.is_server():
 		return
-	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
-	for i in get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_node(str(name)).get_node("HBoxContainer2").get_children():
-		if !i.visible:
-			i.show()
-			break
+	
 
 	winnerText.rpc_id(1)
 	
@@ -66,6 +62,11 @@ func send_to_auths(text: String) -> void:
 	
 
 func displayText(text) -> void:
+	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
+	for i in get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_node(str(name)).get_node("HBoxContainer2").get_children():
+		if !i.visible:
+			i.show()
+			break
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").get_node("winText").text = text
 	get_parent().get_parent().get_node("winParticles").restart()
 	get_parent().get_parent().get_node("winParticles").finished.connect(_particles_finished)
@@ -80,7 +81,7 @@ func _reset() -> void:
 		return
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").hide()
 	
-	get_parent().get_parent().get_node(str(name)).position = get_parent().get_parent().get_node("SpawnPoints").get_child(get_parent().get_parent().spawnOrder).position
+	get_parent().get_parent().get_node(str(name)).global_position = get_parent().get_parent().get_node("SpawnPoints").get_child(get_parent().get_parent().spawnOrder).global_position
 	get_parent().get_parent().get_node(str(name)).release_mouse()
 	get_parent().get_parent().get_node(str(name)).building = false
 	get_parent().get_parent().get_node(str(name)).freeflying = true
