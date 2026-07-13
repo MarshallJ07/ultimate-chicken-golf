@@ -46,6 +46,11 @@ func _body_entered(node):
 	if node != self:
 		return
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
+	for i in get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_node(str(name)).get_node("HBoxContainer2").get_children():
+		if !i.visible:
+			i.show()
+			break
+
 	winnerText.rpc_id(1)
 	
 

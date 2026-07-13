@@ -209,7 +209,7 @@ func _get_new_ball() -> void:
 			i.angular_velocity = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
-	
+	print(can_move)
 	if not is_multiplayer_authority():
 		return
 	swingPower = 1
@@ -309,7 +309,7 @@ func _physics_process(delta: float) -> void:
 		externalVelocity.z = move_toward(externalVelocity.z, 0.0, 15.0 * delta)
 	else:
 		velocity.x = 0
-		velocity.y = 0
+		velocity.z = 0
 	
 	# Use velocity to actually move
 	move_and_slide()

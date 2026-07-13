@@ -30,9 +30,9 @@ func _ready():
 
 func _on_host_created():
 	spawnOrder = 0
-	add_player_pfp_and_name(Steam.getSteamID(),Steam.getPersonaName())
+	add_player_pfp_and_name(Steam.getSteamID(),Steam.getPersonaName(),1)
 @rpc("any_peer","call_local","reliable")
-func add_player_pfp_and_name(steam_id, playerName) -> void:
+func add_player_pfp_and_name(steam_id, playerName, peer_id) -> void:
 	var avatar = Steam.getMediumFriendAvatar(steam_id)
 	if avatar > 0:
 		pass
@@ -67,8 +67,8 @@ func add_player_pfp_and_name(steam_id, playerName) -> void:
 	
 	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(0).get_node("text").text = playerName
 	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(0).get_node("icon").texture = texture
+	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).name = str(peer_id)
 	
-	$CanvasLayer/Scoreboard.get_node("players").get_child(-1).get_child(1).get_node("1").show()
 		
 	
 	if multiplayer.is_server():
@@ -82,10 +82,10 @@ func _peer_connected(peer_id:int):
 	if multiplayer.is_server():
 		_get_spawn_order.rpc_id(peer_id,playerPfpsAndNames.size())
 		for player in playerPfpsAndNames:
-			add_player_pfp_and_name.rpc_id(peer_id,player[0],player[1])
+			add_player_pfp_and_name.rpc_id(peer_id,player[0],player[1],peer_id)
 	if !multiplayer.is_server():
 		if $CanvasLayer.has_node("start"):
-			add_player_pfp_and_name.rpc(Steam.getSteamID(),Steam.getPersonaName())
+			add_player_pfp_and_name.rpc(Steam.getSteamID(),Steam.getPersonaName(),peer_id)
 			$CanvasLayer/start.queue_free()
 			$CanvasLayer/Host.queue_free()
 			$CanvasLayer/waiting.show()
@@ -115,7 +115,6 @@ func spawn_player(peer_id:int):
 	ball.name = str(peer_id)
 
 	$balls.add_child(ball)
-	initialize_ball(ball)
 
 	getName.rpc_id(peer_id, peer_id)
 
@@ -144,7 +143,7 @@ func sendNametags(playerNameList):
 
 func initialize_player(player:CharacterBody3D):
 
-	player.position = $SpawnPoints.get_child(spawnOrder).position
+	player.global_position = $SpawnPoints.get_child(spawnOrder).global_position
 
 	for other in players:
 		player.add_collision_exception_with(other)
@@ -156,8 +155,9 @@ func initialize_player(player:CharacterBody3D):
 func initialize_ball(ball:RigidBody3D):
 	ball.linear_velocity = Vector3.ZERO
 	ball.angular_velocity = Vector3.ZERO
-	ball.position = $SpawnPoints.get_child(spawnOrder).position
-	
+	ball.global_position = $SpawnPoints.get_child(spawnOrder).global_position 
+	ball.global_position[0] += 1
+	ball.global_position[2] -= 0.2
 
 func _on_host_pressed():
 	$CanvasLayer/Host.disabled = true
@@ -225,16 +225,45 @@ func _transition() -> void:
 	$CanvasLayer/black.modulate.a = 0
 	var tween = create_tween()
 	tween.tween_property($CanvasLayer/black,"modulate:a",1,2)
-	tween.finished.connect(_start)
+	tween.finished.connect(_countdown)
 
 func _start():
-	get_node(str(multiplayer.get_unique_id())).building = false
-	get_node(str(multiplayer.get_unique_id())).freeflying = false
+	
 	get_node(str(multiplayer.get_unique_id())).can_move = true
-	get_node(str(multiplayer.get_unique_id())).position = $SpawnPoints.get_child(spawnOrder).position
 	
 	
-	$CanvasLayer/black.modulate.a = 1
-	var tween = create_tween()
-	tween.tween_property($CanvasLayer/black,"modulate:a",0,2)
-	initialize_ball($balls.get_node(str(multiplayer.get_unique_id())))
+	
+	
+	
+
+
+
+
+
+func _countdown() -> void:
+	
+	if $CanvasLayer/countdown/countdown.text == "0":
+		$CanvasLayer/countdown/Timer.start()
+		$CanvasLayer/countdown.show()
+		
+		get_node(str(multiplayer.get_unique_id())).can_move = false
+		get_node(str(multiplayer.get_unique_id())).building = false
+		get_node(str(multiplayer.get_unique_id())).freeflying = false
+		initialize_ball($balls.get_node(str(multiplayer.get_unique_id())))
+		get_node(str(multiplayer.get_unique_id())).global_position = $SpawnPoints.get_child(spawnOrder).global_position
+		
+		$CanvasLayer/black.modulate.a = 1
+		var tween = create_tween()
+		tween.tween_property($CanvasLayer/black,"modulate:a",0,2)
+		$CanvasLayer/countdown/countdown.text = "3"
+	elif $CanvasLayer/countdown/countdown.text == "1":
+		$CanvasLayer/countdown/countdown.text = "0"
+		$CanvasLayer/countdown.hide()
+		_start()
+	elif $CanvasLayer/countdown/countdown.text == "2":
+		$CanvasLayer/countdown/Timer.start()
+		$CanvasLayer/countdown/countdown.text = "1"
+	elif $CanvasLayer/countdown/countdown.text == "3":
+		$CanvasLayer/countdown/Timer.start()
+		$CanvasLayer/countdown/countdown.text = "2"
+	
