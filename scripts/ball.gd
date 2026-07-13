@@ -64,6 +64,7 @@ func send_to_auths(text: String, playerName: String) -> void:
 func displayText(text:String,playerName:String) -> void:
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
 	print('name   ',playerName)
+	print(get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_children())
 	for i in get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_node(playerName).get_node("HBoxContainer2").get_children():
 		if !i.visible:
 			i.show()
