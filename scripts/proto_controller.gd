@@ -64,6 +64,10 @@ var building : bool = false
 
 var externalVelocity := Vector3.ZERO
 
+
+var is_on_ice := false
+
+
 var items := ["club","rpg",null,null]
 var itemActionFuncs := {
 	"club":"actionClub",
@@ -305,6 +309,7 @@ func _physics_process(delta: float) -> void:
 		externalVelocity.x = move_toward(externalVelocity.x, 0.0, 15.0 * delta)
 		externalVelocity.z = move_toward(externalVelocity.z, 0.0, 15.0 * delta)
 	else:
+
 		velocity.x = 0
 		velocity.z = 0
 	

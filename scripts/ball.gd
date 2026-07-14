@@ -2,22 +2,27 @@ extends RigidBody3D
 
 var collisionLayers = {
 	"sandTrap":10,
-	"grass":1
+	"grass":1,
+	"ice":11
 }
 var collidedWith = {
 	"sandTrap":0,
-	"grass":0
+	"grass":0,
+	"ice":0
 }
 var modifierDamp = 0
 var modifierAngularDamp = 0
 
 var player
 func _physics_process(delta: float) -> void:
+	print(linear_damp)
 	modifierDamp = 0
 	modifierAngularDamp = 0
+	physics_material_override.friction = 0.6
 	collidedWith = {
 	"sandTrap":0,
-	"grass":0
+	"grass":0,
+	"ice":0
 	}
 	for area in get_node("Area3D").get_overlapping_areas():
 		if area.get_collision_layer_value(collisionLayers["sandTrap"]) and collidedWith["sandTrap"] == 0:
@@ -25,15 +30,19 @@ func _physics_process(delta: float) -> void:
 			modifierDamp += 10
 			modifierAngularDamp += 10
 			player.swingPower *= 0.4
+		elif area.get_collision_layer_value(collisionLayers["ice"]) and collidedWith["ice"] == 0:
+			collidedWith["ice"] = 1
+			player.is_on_ice = true
+			modifierDamp -= 2
+			physics_material_override.friction = 0.0
 	for body in get_node("Area3D").get_overlapping_bodies():
 		if body.get_collision_layer_value(collisionLayers["grass"]) and collidedWith["grass"] == 0:
 			collidedWith["grass"] = 1
-			modifierDamp += 2
 			modifierAngularDamp += 2
-	
+			modifierDamp += 2
 	self.linear_damp = modifierDamp
 	self.angular_damp = modifierAngularDamp
-
+	
 	
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
@@ -63,8 +72,6 @@ func send_to_auths(text: String, playerName: String) -> void:
 
 func displayText(text:String,playerName:String) -> void:
 	get_parent().get_parent().get_node("CanvasLayer").get_node("Panel").show()
-	print('name   ',playerName)
-	print(get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_children())
 	for i in get_parent().get_parent().get_node("CanvasLayer").get_node("Scoreboard").get_node("players").get_node(playerName).get_node("HBoxContainer2").get_children():
 		if !i.visible:
 			i.show()

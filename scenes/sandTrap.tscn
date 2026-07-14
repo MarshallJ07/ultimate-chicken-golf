@@ -5,10 +5,10 @@ albedo_color = Color(0.5882353, 0.5254902, 0.29411766, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_p8oo0"]
 material = SubResource("StandardMaterial3D_r8e6n")
-size = Vector3(10, 0.25, 10)
+size = Vector3(20, 0.25, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_beisb"]
-size = Vector3(10, 0.25, 10)
+size = Vector3(20, 0.25, 20)
 
 [node name="sandTrap" type="Node3D" unique_id=1455676905]
 

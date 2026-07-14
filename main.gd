@@ -18,6 +18,7 @@ var obstacles = {
 	"sandTrap":{"text":"sandTrap"},
 	"wall":{"text":"wall"},
 	"funnel":{"text":"funnel"},
+	"ice":{"text":"ice"}
 }
 var ghost: Node3D
 var currentObstacle = null
@@ -237,7 +238,6 @@ func _start():
 	get_node(str(multiplayer.get_unique_id())).can_use_action = true
 @rpc("any_peer","reliable")
 func show_crossair() -> void:
-	print(multiplayer.get_unique_id())
 	if !multiplayer.is_server():
 		$CanvasLayer/ColorRect.show()
 		$CanvasLayer/ColorRect2.show()

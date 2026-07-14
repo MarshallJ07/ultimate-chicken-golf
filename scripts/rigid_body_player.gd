@@ -10,12 +10,17 @@ func _ready() -> void:
 	$Timer.start()
 
 func _physics_process(delta: float) -> void:
-	get_parent().get_parent().get_node(str(id)).global_position = global_position
-	if linear_velocity.length() < 0.5 and $Timer.is_stopped():
-		ask_is_slow_enough.rpc_id(1,id)
+	if multiplayer.is_server():
+		send_host_position.rpc(global_position)
+	
+	
 		
-
-		
+@rpc("any_peer","call_local", "reliable")
+func send_host_position(hostPos) -> void:
+	if is_multiplayer_authority():
+		get_parent().get_parent().get_node(str(id)).global_position = global_position
+		if linear_velocity.length() < 0.5 and $Timer.is_stopped():
+			ask_is_slow_enough.rpc_id(1,id)
 
 #HOST
 @rpc("call_local", "reliable")

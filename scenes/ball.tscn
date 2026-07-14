@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dho7yfku0di7j" path="res://scripts/ball.gd" id="1_7s4qf"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n1dj2"]
-friction = 0.5
+friction = 0.0
 bounce = 0.4
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_cxlvu"]
@@ -28,8 +28,8 @@ properties/1/replication_mode = 1
 radius = 0.3
 
 [node name="ball" type="RigidBody3D" unique_id=112339196]
-collision_layer = 514
-collision_mask = 514
+collision_layer = 1538
+collision_mask = 1538
 mass = 0.5
 physics_material_override = SubResource("PhysicsMaterial_n1dj2")
 gravity_scale = 1.5
@@ -70,7 +70,7 @@ target_position = Vector3(0, 0, 0.5)
 
 [node name="Area3D" type="Area3D" parent="." unique_id=560412340]
 collision_layer = 0
-collision_mask = 513
+collision_mask = 1537
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1427392890]
 shape = SubResource("SphereShape3D_7s4qf")
