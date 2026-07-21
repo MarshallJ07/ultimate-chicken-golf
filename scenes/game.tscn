@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://3dbj678lk3bw" path="res://main.gd" id="1_yqjtg"]
 [ext_resource type="Script" uid="uid://dk44e7yqyfbco" path="res://scripts/start.gd" id="2_lnu2h"]
-[ext_resource type="PackedScene" uid="uid://brqy5clh61o5v" path="res://terrain_v_0_0_1.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://dwviyrheg8e2t" path="res://scenes/scoreboard.tscn" id="3_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://b75tq6qmve0q6" path="res://scenes/hole_and_water.tscn" id="5_iywne"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8cj0n"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -224,7 +224,7 @@ autowrap_mode = 3
 one_shot = true
 
 [node name="SpawnPoints" type="Node3D" parent="." unique_id=45943913]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 110.823)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.125519, 29.828766, 123.22923)
 
 [node name="spawnPoint1" type="Node3D" parent="SpawnPoints" unique_id=146100634]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.25, 0)
@@ -261,8 +261,6 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.33, -280)
 shape = SubResource("CylinderShape3D_lnu2h")
 
-[node name="terrain V0_0_1" parent="." unique_id=423592377 instance=ExtResource("2_yqjtg")]
-
 [node name="obstacles" type="Node3D" parent="." unique_id=481307846]
 
 [node name="ghost obstacles" type="Node3D" parent="." unique_id=1588693570]
@@ -287,6 +285,9 @@ initial_velocity_min = 15.0
 initial_velocity_max = 30.0
 scale_amount_min = 0.2
 scale_amount_max = 0.2
+
+[node name="holeAndWater" parent="." unique_id=925002595 instance=ExtResource("5_iywne")]
+transform = Transform3D(-2.1855695e-07, 0, -5, 0, 5, 0, 5, 0, -2.1855695e-07, 0, 0, 0)
 
 [connection signal="pressed" from="CanvasLayer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CanvasLayer/Host" to="CanvasLayer/start" method="_on_host_pressed"]

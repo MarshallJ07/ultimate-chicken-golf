@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://lcpwgxrnd7nb"]
 
 [ext_resource type="Script" uid="uid://dho7yfku0di7j" path="res://scripts/ball.gd" id="1_7s4qf"]
+[ext_resource type="Texture2D" uid="uid://b0hayj3xw823f" path="res://textures/ball.jpg" id="2_cxlvu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n1dj2"]
 friction = 0.0
@@ -9,12 +10,13 @@ bounce = 0.4
 [sub_resource type="SphereShape3D" id="SphereShape3D_cxlvu"]
 radius = 0.25
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f7cbr"]
+albedo_texture = ExtResource("2_cxlvu")
+
 [sub_resource type="SphereMesh" id="SphereMesh_n1dj2"]
+material = SubResource("StandardMaterial3D_f7cbr")
 radius = 0.25
 height = 0.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7s4qf"]
-albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7s4qf"]
 properties/0/path = NodePath(".:position")
@@ -43,7 +45,6 @@ shape = SubResource("SphereShape3D_cxlvu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=150287110]
 mesh = SubResource("SphereMesh_n1dj2")
-surface_material_override/0 = SubResource("StandardMaterial3D_7s4qf")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=558433674]
 replication_config = SubResource("SceneReplicationConfig_7s4qf")

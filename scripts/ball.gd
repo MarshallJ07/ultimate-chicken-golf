@@ -15,7 +15,6 @@ var modifierAngularDamp = 0
 
 var player
 func _physics_process(delta: float) -> void:
-	print(linear_damp)
 	modifierDamp = 0
 	modifierAngularDamp = 0
 	physics_material_override.friction = 0.6
@@ -40,8 +39,22 @@ func _physics_process(delta: float) -> void:
 			collidedWith["grass"] = 1
 			modifierAngularDamp += 2
 			modifierDamp += 2
+			var speed = linear_velocity.length()
+			if speed < 1.0:
+				modifierDamp += 4.0
+				modifierAngularDamp += 4.0
+			if speed < 0.5:
+				modifierDamp += 6.0
+				modifierAngularDamp += 6.0
+			if linear_velocity.length() < 0.25:
+				linear_velocity = Vector3.ZERO
+				angular_velocity = Vector3.ZERO
+			
+	
+	
 	self.linear_damp = modifierDamp
 	self.angular_damp = modifierAngularDamp
+	
 	
 	
 func _enter_tree() -> void:

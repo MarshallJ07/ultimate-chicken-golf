@@ -65,6 +65,7 @@ billboard = 2
 
 [node name="Timer" type="Timer" parent="." unique_id=1685731066]
 wait_time = 0.1
+one_shot = true
 
 [node name="eyes" type="MeshInstance3D" parent="." unique_id=1661810670]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.455, -0.275)

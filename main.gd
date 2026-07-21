@@ -31,7 +31,6 @@ func _ready():
 
 func _on_host_created():
 	spawnOrder = 0
-	print('host')
 	add_player_pfp_and_name(Steam.getSteamID(),Steam.getPersonaName(),1)
 @rpc("any_peer","call_local","reliable")
 func add_player_pfp_and_name(steam_id, playerName, peer_id) -> void:
@@ -277,4 +276,5 @@ func _countdown() -> void:
 	elif $CanvasLayer/countdown/countdown.text == "3":
 		$CanvasLayer/countdown/Timer.start()
 		$CanvasLayer/countdown/countdown.text = "2"
+	
 	
